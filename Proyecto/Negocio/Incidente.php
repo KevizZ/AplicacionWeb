@@ -5,21 +5,17 @@ class Incidente
 {
 
     private $id;
-    private $titulo;
     private $descripcion;
-    private $categoria;
-    private $gravedad;
+    private $prioridad;
     private $fecha;
     private $estado;
     private $Eventos = array();
     private $Usuarios = array();
 
-    public function __construct($titulo, $descripcion, $categoria, $gravedad, $fecha, $estado, $id = '0')
+    public function __construct($fecha, $descripcion, $prioridad, $estado, $id = '0')
     {
-        $this->titulo = $titulo;
         $this->descripcion = $descripcion;
-        $this->categoria = $categoria;
-        $this->gravedad = $gravedad;
+        $this->prioridad = $prioridad;
         $this->fecha = $fecha;
         $this->estado = $estado;
         $this->id = $id;
@@ -35,25 +31,16 @@ class Incidente
 
     }
 
-    public function getTitulo()
-    {
-        return $this->titulo;
-    }
-
     public function getDescripcion()
     {
         return $this->descripcion;
     }
 
-    public function getCategoria()
+    public function getPrioridad()
     {
-        return $this->categoria;
+        return $this->prioridad;
     }
 
-    public function getGravedad()
-    {
-        return $this->gravedad;
-    }
     public function getFecha()
     {
         return $this->fecha;

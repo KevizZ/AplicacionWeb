@@ -11,14 +11,12 @@
 
     public function obtenerIncidentes(){
       $Incidentes = [];
-      $stmt = $this->pdo->query("SELECT * FROM datos");
+      $stmt = $this->pdo->query("SELECT * FROM incidente");
 
       while($row = $stmt->fetch()){
         array_push($Incidentes, new Incidente( 
-          $row['titulo'],
           $row['descripcion'],
-          $row['categoria'],
-          $row['gravedad'],
+          $row['prioridad'],
           $row['fecha'],
           $row['estado'],
           $row['id']

@@ -12,7 +12,7 @@
         public function  __construct() {
             $this->user = 'root';
             $this->password = '';
-            $this->baseDeDatos = 'test';
+            $this->baseDeDatos = 'proyecto';
             $this->puerto = 3306;
         }
 
