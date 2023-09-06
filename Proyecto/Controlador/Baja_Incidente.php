@@ -1,7 +1,7 @@
 <?php
 include("../Repositorio/Conexion.php");
 
-$id = $_GET['eliminarId'];
+$id = $_GET['id'];
 
 $sql = "DELETE FROM incidente WHERE id = ?";
 

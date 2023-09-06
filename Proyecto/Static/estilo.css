@@ -1,0 +1,82 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+h1 {
+    text-align: center;
+    font-family: Verdana;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 40%;
+}
+
+.btn-eliminar {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 40%;
+}
+.btn-modificar {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 40%;
+}
+
+.btn-evento {
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: skyblue;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 40%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}

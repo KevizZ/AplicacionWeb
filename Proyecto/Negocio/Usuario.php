@@ -1,24 +1,29 @@
 <?php
 class Usuario{
 
-    private $identificacion;
+    private $cedula;
     private $nombre;
+    private $correo;
     private $contraseña;
 
-    function __construct($i,$n,$c){
-        $this->identificacion = $i;
-        $this->nombre = $n;
-        $this->contraseña = $c;
+    function __construct($nombre,$cedula,$correo,$contraseña){
+        $this->cedula = $cedula;
+        $this->nombre = $nombre;
+        $this->contraseña = $contraseña;
+        $this->correo = $correo;
     }
 
-    public function getIdentificacion(){
-        return $this->identificacion;
+    public function getCedula(){
+        return $this->cedula;
     }
     public function getNombre(){
         return $this->nombre;
     }
     public function getContraseña(){
         return $this->contraseña;
+    }
+    public function getCorreo(){
+        return $this->correo;
     }
 }
 ?>

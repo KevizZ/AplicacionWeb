@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Incidentes</title>
+    <title>Document</title>
     <link rel="stylesheet" href="../Static/estilo.css">
 </head>
-
 <body>
     <div class="container">
-        <h1>Registro de Incidentes</h1>
-        <form name="incident-form" action="Alta_Incidente.php" method="get">
-            <label for="fecha">Fecha:</label>
+        <h1>Registor de Eventos</h1>
+        <form name="incident-form" action="Alta_Evento.php" method="get">
+            <label for="fecha">Fecha</label>
             <input type="date" name="fecha" required>
 
             <label for="descripcion">Descripción:</label>
             <input type="text" name="descripcion" required>
 
             <label for="prioridad">Prioridad</label>
-            <select name="prioridad" required>
+            <select name="prioridad" required> 
                 <option value="">Seleccione un estado</option>
                 <option value="Alta">Alta</option>
                 <option value="Media">Media</option>
@@ -38,38 +36,39 @@
             <br>
             <button type="submit">Agregar Incidente</button>
         </form>
-        <script src="scripts.js">
+
         <table name="incident-table">
             <thead>
             <tr>
                     <th>Indice</th>
-                    <th>Descripcion</th>
-                    <th>Prioridad</th>
                     <th>Fecha</th>
-                    <th>Estado</th>
+                    <th>Tipo</th>
+                    <th>Descripcion</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Aquí se mostrarán los incidentes -->
                 <?php
-                include("../Negocio/Incidente.php");
+                include("../Negocio/Evento.php");
 
-                $Incidentes = Incidente::obtenerIncidentes();
+                $Eventos = Evento::obtenerEventos($_GET["id"]);
 
-                foreach ($Incidentes as $I) {
+                foreach ($Eventos as $I) {
                     echo "<tr>
                         <td>" . $I->getID() . "</td>
                         <td>" . $I->getFecha() . "</td>
+                        <td>" . $I->getTipo() . "</td>
                         <td>" . $I->getDescripcion() . "</td>
-                        <td>" . $I->getPrioridad() . "</td>
-                        <td>" . $I->getEstado() . "</td>
-                        <td><button class='btn-modificar'><a href='Modificar_Incidente.php?id=".$I->getID()."'>Modificar</a></button></td> 
-                        <td><button class='btn-eliminar'><a href='Baja_Incidente.php?id=".$I->getID()."'>Eliminar</a></button></td>
-                        <td><button class='btn-evento'><a href='Index_Evento.php?id=".$I->getID()."'>Eventos</a></button></td>
+                        <td><button class='btn-modificar' onclick='cargarPagina('Modificar_Incidente.php'><a href='Modificar_Incidente.php?id=".$I->getID()."'>Modificar</a></button></td>  
+                        <td><button class='btn-eliminar' onclick='cargarPagina('Baja_Incidente.php'><a href='Baja_Incidente.php?id=".$I->getID()."'>Eliminar</a></button></td>
+                        <td><button class='btn-evento' onclick='cargarPagina('Index_Evento.php?".$I->getID()."')><a href='Index_Evento.php?id=".$I->getID()."'>Eventos</a></button></td>
                         </tr>";
-                    }
+                }
+
                 ?>
             </tbody>
         </table>
+        <script src="scripts.js"></script>
     </div>
+</body>
 </html>

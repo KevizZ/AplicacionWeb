@@ -1,5 +1,6 @@
 <?php
-include("../Repositorio/Repositorio_Incidentes.php");
+include("../Repositorio/Repositorio.php");
+include("../Negocio/Evento.php");
 
 class Incidente
 {
@@ -21,12 +22,12 @@ class Incidente
         $this->id = $id;
     }
 
-    public function agregarEvento($evento)
+    public function addEvento($evento)
     {
-
+        
     }
 
-    public function eliminarEvento()
+    public function removeEvento()
     {
 
     }
@@ -57,7 +58,7 @@ class Incidente
 
     public static function obtenerIncidentes()
     {
-        $rep = new RepositorioIncidentes;
+        $rep = new Repositorio;
         return $rep->obtenerIncidentes();
     }
 }
