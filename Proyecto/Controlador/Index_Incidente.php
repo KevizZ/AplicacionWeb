@@ -38,7 +38,6 @@
             <br>
             <button type="submit">Agregar Incidente</button>
         </form>
-        <script src="scripts.js">
         <table name="incident-table">
             <thead>
             <tr>
@@ -63,7 +62,8 @@
                         <td>" . $I->getDescripcion() . "</td>
                         <td>" . $I->getPrioridad() . "</td>
                         <td>" . $I->getEstado() . "</td>
-                        <td><button class='btn-modificar'><a href='Modificar_Incidente.php?id=".$I->getID()."'>Modificar</a></button></td> 
+                        <td><button class='btn-modificar'><a href='Modificar_Incidente.
+                        php?id=".$I->getID()."'>Modificar</a></button></td> 
                         <td><button class='btn-eliminar'><a href='Baja_Incidente.php?id=".$I->getID()."'>Eliminar</a></button></td>
                         <td><button class='btn-evento'><a href='Index_Evento.php?id=".$I->getID()."'>Eventos</a></button></td>
                         </tr>";

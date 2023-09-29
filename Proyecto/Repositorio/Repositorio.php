@@ -15,11 +15,12 @@
 
       while($row = $stmt->fetch()){
         array_push($Incidentes, new Incidente( 
+          $row['fecha'],
           $row['descripcion'],
           $row['prioridad'],
-          $row['fecha'],
           $row['estado'],
           $row['id']
+          
         ));
       }
       

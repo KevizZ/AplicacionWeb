@@ -1,16 +1,13 @@
 <?php
-include("../Repositorio/Conexion.php");
+include("../Negocio/Incidente.php");
 
-$id = $_GET['id'];
+$incidente_id = $_GET["id"]; // Asegúrate de obtener el ID del evento desde la URL correctamente
 
-$sql = "DELETE FROM incidente WHERE id = ?";
-
-$conexion = new Conexion();
-
-$statement = $conexion->getConexion()->prepare($sql);
+Evento::deleteEvento($incidente_id);
+Incidente::deleteIncidente($incidente_id);
 
 
-$statement->execute([$id]);
+
+
 header("location: Index_Incidente.php");
-
 ?>

@@ -17,21 +17,16 @@
             <label for="descripcion">Descripción:</label>
             <input type="text" name="descripcion" required>
 
-            <label for="prioridad">Prioridad</label>
-            <select name="prioridad" required> 
-                <option value="">Seleccione un estado</option>
-                <option value="Alta">Alta</option>
-                <option value="Media">Media</option>
-                <option value="Baja">Baja</option>
+            <label for="tipo">Tipo de Evento:</label>
+            <select name="tipo" required>
+                <option value=""></option>
+                <option value="Reunion">Reunion</option>
+                <option value="Resolucion">Resolucion</option>
+                <option value="Entrevista">Entrevista</option>
             </select>
 
-            <label for="estado">Estado:</label>
-            <select name="estado" required>
-                <option value="">Seleccione un estado</option>
-                <option value="Abierto">Activo</option>
-                <option value="Cerrado">Cerrado</option>
-                <option value="Pendiente">Pendiente</option>
-            </select>
+            <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+            
             <br>
             <br>
             <button type="submit">Agregar Incidente</button>
@@ -51,7 +46,8 @@
                 <?php
                 include("../Negocio/Evento.php");
 
-                $Eventos = Evento::obtenerEventos($_GET["id"]);
+
+                $Eventos = Evento::getEventos();
 
                 foreach ($Eventos as $I) {
                     echo "<tr>
@@ -60,7 +56,7 @@
                         <td>" . $I->getTipo() . "</td>
                         <td>" . $I->getDescripcion() . "</td>
                         <td><button class='btn-modificar' onclick='cargarPagina('Modificar_Incidente.php'><a href='Modificar_Incidente.php?id=".$I->getID()."'>Modificar</a></button></td>  
-                        <td><button class='btn-eliminar' onclick='cargarPagina('Baja_Incidente.php'><a href='Baja_Incidente.php?id=".$I->getID()."'>Eliminar</a></button></td>
+                        <td><button class='btn-eliminar'><a href='Baja_Evento.php?id=".$I->getID()."'>Eliminar</a></button></td>
                         <td><button class='btn-evento' onclick='cargarPagina('Index_Evento.php?".$I->getID()."')><a href='Index_Evento.php?id=".$I->getID()."'>Eventos</a></button></td>
                         </tr>";
                 }
@@ -68,7 +64,6 @@
                 ?>
             </tbody>
         </table>
-        <script src="scripts.js"></script>
     </div>
 </body>
 </html>
