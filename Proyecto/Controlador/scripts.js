@@ -1,20 +1,4 @@
 
-function toggleSidebar() {
-    const sidebar = document.querySelector('.sidebar');
-    const menuIcon = document.querySelector('.menu-icon');
-  
-    if (sidebar.style.width === '0px' || sidebar.style.width === '') {
-        sidebar.style.width = '250px'; // Expandir la barra lateral
-        menuIcon.style.left = '230px'; // Mover el icono de menú a la derecha
-    } else {
-        sidebar.style.width = '0px'; // Contraer la barra lateral
-        menuIcon.style.left = '0px'; // Mover el icono de menú a la izquierda
-    }
-}
-
-toggleSidebar();
-
-// Función para cargar el contenido de las páginas
 function cargarPagina(url) {
     fetch(url)
         .then(response => response.text())
