@@ -20,32 +20,14 @@ class Evento
         $conexion = new Conexion();
 
         // Primero, inserta un registro en la tabla evento
-        $query = "INSERT INTO evento (descripcion, fecha, incidente_id) VALUES (?, ?, ?)";
+        $query = "INSERT INTO evento (descripcion, fecha, incidente_id) VALUES (?, ?, ?)
+        AND INSERT INTO tipoevento (tipo) VALUES (?)";
         $statement = $conexion->getConexion()->prepare($query);
 
         $statement->execute([
             $this->descripcion,
             $this->fecha,
-            $incidente_id
-        ]);
-
-        $pdo = new PDO('mysql:host=test;dbname=proyecto', 'root', '');
-        $pdo->exec("INSERT INTO evento (descripcion, fecha, incidente_id) VALUES (?, ?, ?)");
-
-        $evento_id = "SELECT LAST_INSERT_ID() FROM ?";
-
-        $statement = $conexion->getConexion()->prepare($evento_id);
-
-        $statement->execute([
-            "evento"
-        ]);
-        
-        // Después, inserta un registro en la tabla tipoevento
-        $query = "INSERT INTO tipoevento (id, tipo) VALUES (?, ?)";
-        $statement = $conexion->getConexion()->prepare($query);
-
-        $statement->execute([
-            $evento_id,
+            $incidente_id,
             $this->tipo
         ]);
     }

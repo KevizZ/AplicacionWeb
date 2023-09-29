@@ -1,65 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Sitio Web</title>
+    <link rel="stylesheet" type="text/css" href="../Static/estilo_menu.css">
+    <title>Document</title>
 </head>
-
 <body>
-    <div class="sidebar">
-        <!-- Contenido del menú lateral -->
+<div class="area"></div>
+    <nav class="main-menu">
         <ul>
-            <li><a href="javascript:void(0);" onclick="cargarPagina('Index_Incidente.php')">Registro de Incidentes</a>
+            <li>
+                <a href="https://jbfarrow.com">
+                    <i class="fa fa-home fa-2x"></i>
+                    <span class="nav-text">
+                        Community Dashboard
+                    </span>
+                </a>
+    
             </li>
-            <!-- Agrega más enlaces para tus páginas aquí -->
+            <li class="has-subnav">
+                <a href="#">
+                    <i class="fa fa-globe fa-2x"></i>
+                    <span class="nav-text">
+                        Global Surveyors
+                    </span>
+                </a>
+    
+            </li>
+            <li class="has-subnav">
+                <a href="#">
+                    <i class="fa fa-comments fa-2x"></i>
+                    <span class="nav-text">
+                        Group Hub Forums
+                    </span>
+                </a>
+    
+            </li>
+            <li class="has-subnav">
+                <a href="#">
+                    <i class="fa fa-camera-retro fa-2x"></i>
+                    <span class="nav-text">
+                        Survey Photos
+                    </span>
+                </a>
+    
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-film fa-2x"></i>
+                    <span class="nav-text">
+                        Surveying Tutorials
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-book fa-2x"></i>
+                    <span class="nav-text">
+                        Surveying Jobs
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-cogs fa-2x"></i>
+                    <span class="nav-text">
+                        Tools & Resources
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-map-marker fa-2x"></i>
+                    <span class="nav-text">
+                        Member Map
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-info fa-2x"></i>
+                    <span class="nav-text">
+                        Documentation
+                    </span>
+                </a>
+            </li>
         </ul>
-        <!-- Icono de menú para contraer la barra lateral -->
-    </div>
-    <div class="content">
-        <!-- Aquí se cargará el contenido de las páginas -->
-    </div>
-
-
+    
+        <ul class="logout">
+            <li>
+                <a href="#">
+                    <i class="fa fa-power-off fa-2x"></i>
+                    <span class="nav-text">
+                        Logout
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </body>
-
 </html>
-
-<style>
-    body {
-        display: flex;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    /* Estilos para el contenido principal */
-    .content {
-        flex: 1;
-        padding: 20px;
-        /* Espaciado interno para el contenido principal */
-    }
-
-    /* Estilos para la barra lateral */
-    .sidebar {
-        background-color: #007BFF;
-        /* Color de fondo celeste */
-        color: white;
-        /* Texto en color blanco */
-        width: 250px;
-        /* Ancho de la barra lateral */
-        height: 100vh;
-        /* Altura del viewport */
-        padding: 20px;
-        /* Espaciado interno para el contenido de la barra lateral */
-        transition: width 0.3s;
-        /* Transición suave para la animación de contraer/expandir */
-    }
-
-
-</style>
-
-<script src="scripts.js">
-</script>
