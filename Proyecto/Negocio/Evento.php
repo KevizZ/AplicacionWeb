@@ -17,17 +17,26 @@ class Evento
 
     public function insertEvento($incidente_id)
     {
-        $conexion = new Conexion();
+        $pdo = new PDO("mysql:host=localhost;dbname=proyecto", "root", "");
 
         // Primero, inserta un registro en la tabla evento
-        $query = "INSERT INTO evento (descripcion, fecha, incidente_id) VALUES (?, ?, ?)
-        AND INSERT INTO tipoevento (tipo) VALUES (?)";
-        $statement = $conexion->getConexion()->prepare($query);
+        $query = "INSERT INTO evento (descripcion, fecha, incidente_id) VALUES (?, ?, ?)";
+        $statement = $pdo->prepare($query);
 
         $statement->execute([
             $this->descripcion,
             $this->fecha,
-            $incidente_id,
+            $incidente_id
+        ]);
+
+        // Obtener el último ID insertado
+        $lastId = $pdo->lastInsertId();
+
+        $query = "INSERT INTO tipoevento(id,tipo) VALUES (?,?)";
+        $statement = $pdo->prepare($query);
+
+        $statement->execute([
+            $lastId,
             $this->tipo
         ]);
     }
@@ -37,7 +46,7 @@ class Evento
     {
         $conexion = new Conexion();
 
-        $query = "DELETE FROM tipoEvento WHERE id IN (SELECT id FROM evento WHERE id = ?);";
+        $query = "DELETE FROM tipoEvento WHERE id = ?;";
 
         $statement = $conexion->getConexion()->prepare($query);
 
@@ -48,8 +57,6 @@ class Evento
         $statement = $conexion->getConexion()->prepare($query);
 
         $statement->execute([$evento_id]);
-
-        // Selecciono los elemetnos de TipoEvento que esten asociados a los eventos con el id correspondiente
 
 
     }
@@ -77,10 +84,10 @@ class Evento
         $this->tipo = $tipo;
     }
 
-    public static function getEventos()
+    public static function getEventos($id)
     {
         $rep = new Repositorio;
-        return $rep->obtenerEventos();
+        return $rep->obtenerEventos($id);
     }
 }
 

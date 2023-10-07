@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../Static/estilo_menu.css">
+    <link rel="stylesheet" type="text/css" href="../Static/icon.css">
     <title>Document</title>
 </head>
 <body>
@@ -12,28 +13,28 @@
     <nav class="main-menu">
         <ul>
             <li>
-                <a href="https://jbfarrow.com">
-                    <i class="fa fa-home fa-2x"></i>
+                <a href="#">
+                    <i class="fa fa-user fa-2x"></i>
                     <span class="nav-text">
-                        Community Dashboard
+                        Perfil
+                    </span>
+                </a>
+    
+            </li>
+            <li class="has-subnav">
+                <a href="Index_Incidente.php">
+                    <i class="fa fa-file fa-2x"></i>
+                    <span class="nav-text">
+                        Ingresar Incidente
                     </span>
                 </a>
     
             </li>
             <li class="has-subnav">
                 <a href="#">
-                    <i class="fa fa-globe fa-2x"></i>
+                    <i class="fa fa-book fa-2x"></i>
                     <span class="nav-text">
-                        Global Surveyors
-                    </span>
-                </a>
-    
-            </li>
-            <li class="has-subnav">
-                <a href="#">
-                    <i class="fa fa-comments fa-2x"></i>
-                    <span class="nav-text">
-                        Group Hub Forums
+                        Incidentes
                     </span>
                 </a>
     

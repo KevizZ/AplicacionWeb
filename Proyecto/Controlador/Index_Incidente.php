@@ -13,16 +13,24 @@
 <body>
     <div class="container">
         <h1>Registro de Incidentes</h1>
-        <form name="incident-form" action="Alta_Incidente.php" method="get">
+        <form name="incident-form" method="post" enctype="multipart/form-data">
             <label for="fecha">Fecha:</label>
             <input type="date" name="fecha" required>
 
             <label for="descripcion">Descripción:</label>
             <input type="text" name="descripcion" required>
 
+            <label for="categoria">Categoria</label>
+            <select name="categoria" required>
+                <option value="">Seleccione un estado</option>
+                <option value="Robo">Robo</option>
+                <option value="Acoso">Acoso</option>
+                <option value="Pelea">Pelea</option>
+            </select>
+
             <label for="prioridad">Prioridad</label>
             <select name="prioridad" required>
-                <option value="">Seleccione un estado</option>
+                <option value="">Seleccione una prioridad</option>
                 <option value="Alta">Alta</option>
                 <option value="Media">Media</option>
                 <option value="Baja">Baja</option>
@@ -35,18 +43,23 @@
                 <option value="Cerrado">Cerrado</option>
                 <option value="Pendiente">Pendiente</option>
             </select>
+
+            <label for="archivo">Seleccionar Archivo:</label>
+            <input type="file" name="archivo" id="archivo" required>
             <br>
             <br>
-            <button type="submit">Agregar Incidente</button>
+            <button type="submit" formaction="Alta_Incidente.php">Agregar Incidente</button>
         </form>
         <table name="incident-table">
             <thead>
-            <tr>
-                    <th>Indice</th>
+                <tr>
+                    <th>#</th>
                     <th>Descripcion</th>
+                    <th>Categoria</th>
                     <th>Prioridad</th>
                     <th>Fecha</th>
                     <th>Estado</th>
+                    <th>Archivo</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,19 +69,22 @@
 
                 $Incidentes = Incidente::obtenerIncidentes();
 
+
+
                 foreach ($Incidentes as $I) {
                     echo "<tr>
                         <td>" . $I->getID() . "</td>
-                        <td>" . $I->getFecha() . "</td>
                         <td>" . $I->getDescripcion() . "</td>
+                        <td>" . $I->getCategoria() . "</td>
                         <td>" . $I->getPrioridad() . "</td>
+                        <td>" . $I->getFecha() . "</td>
                         <td>" . $I->getEstado() . "</td>
-                        <td><button class='btn-modificar'><a href='Modificar_Incidente.
-                        php?id=".$I->getID()."'>Modificar</a></button></td> 
-                        <td><button class='btn-eliminar'><a href='Baja_Incidente.php?id=".$I->getID()."'>Eliminar</a></button></td>
-                        <td><button class='btn-evento'><a href='Index_Evento.php?id=".$I->getID()."'>Eventos</a></button></td>
-                        </tr>";
-                    }
+                        <td><button class='btn-modificar'><a href='Descargar_Archivo.php?archivo=" . $I->getArchivo() . "'>Archivo</a></button></td> 
+                        <td><button class='btn-modificar'><a href='Modificar_Incidente.php?id_incidente=" . $I->getID() . "'>Modificar</a></button></td>
+                        <td><button class='btn-eliminar'><a href='Baja_Incidente.php?id_incidente=" . $I->getID() . "'>Eliminar</a></button></td>
+                        <td><button class='btn-evento'><a href='Index_Evento.php?id_incidente=" . $I->getID() . "'>Eventos</a></button></td>
+                    </tr>";
+                }
                 ?>
             </tbody>
         </table>
@@ -77,31 +93,31 @@
     <nav class="main-menu">
         <ul>
             <li>
-                <a href="https://jbfarrow.com">
-                    <i class="fa fa-home fa-2x"></i>
+                <a href="#">
+                    <i class="fa fa-user fa-2x"></i>
                     <span class="nav-text">
                         Perfil
                     </span>
                 </a>
-    
+
+            </li>
+            <li class="has-subnav">
+                <a href="Index_Incidente.php">
+                    <i class="fa fa-file fa-2x"></i>
+                    <span class="nav-text">
+                        Ingresar Incidente
+                    </span>
+                </a>
+
             </li>
             <li class="has-subnav">
                 <a href="#">
-                    <i class="fa fa-globe fa-2x"></i>
+                    <i class="fa fa-book fa-2x"></i>
                     <span class="nav-text">
-                        Global Surveyors
+                        Incidentes
                     </span>
                 </a>
-    
-            </li>
-            <li class="has-subnav">
-                <a href="#">
-                    <i class="fa fa-comments fa-2x"></i>
-                    <span class="nav-text">
-                        Group Hub Forums
-                    </span>
-                </a>
-    
+
             </li>
             <li class="has-subnav">
                 <a href="#">
@@ -110,7 +126,7 @@
                         Survey Photos
                     </span>
                 </a>
-    
+
             </li>
             <li>
                 <a href="#">
@@ -153,7 +169,7 @@
                 </a>
             </li>
         </ul>
-    
+
         <ul class="logout">
             <li>
                 <a href="#">
@@ -165,4 +181,5 @@
             </li>
         </ul>
     </nav>
+
 </html>
