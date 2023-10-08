@@ -3,7 +3,7 @@
 $identificador = $_GET['archivo'];
 
 // Determina la ubicación del archivo en el servidor
-$rutaArchivo = '../Archivos/' . $identificador;
+$rutaArchivo =  $identificador;
 
 // Verifica si el archivo existe
 if (file_exists($rutaArchivo)) {

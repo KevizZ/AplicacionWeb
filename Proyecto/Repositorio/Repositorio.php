@@ -48,10 +48,13 @@ class Repositorio
   {
     $Eventos = [];
 
-    $sql = "SELECT evento.*, tipoEvento.tipo AS tipo
-              FROM evento
-              LEFT JOIN tipoEvento ON evento.id = tipoEvento.id
-              WHERE evento.incidente_id = $id";
+    $sql = "SELECT evento.*, tipoEvento.tipo AS tipo, archivo.nombre AS nombre
+    FROM evento
+    LEFT JOIN tipoEvento ON evento.id = tipoEvento.id
+    LEFT JOIN archivo_evento ON evento.id = archivo_evento.evento_id
+    LEFT JOIN archivo ON archivo_evento.evento_id = archivo.id
+    WHERE evento.incidente_id = $id";
+
 
     $stmt = $this->pdo->query($sql);
 
@@ -65,6 +68,8 @@ class Repositorio
 
       // Agrega la propiedad "tipo" a tu objeto Evento
       $evento->setTipo($row['tipo']);
+
+      $evento->setArchivo($row['nombre']);
 
       array_push($Eventos, $evento);
     }

@@ -7,6 +7,7 @@ class Evento
     private $descripcion;
     private $tipo;
     private $id;
+    private $archivo;
 
     function __construct($f, $d, $id = 0)
     {
@@ -39,12 +40,27 @@ class Evento
             $lastId,
             $this->tipo
         ]);
+
+        return $lastId;
     }
 
 
     public static function deleteEvento($evento_id)
     {
         $conexion = new Conexion();
+
+        $conexion = new Conexion();
+
+        // Paso 1: Obtener el nombre del archivo asociado al evento
+        $query = "SELECT archivo.nombre
+                  FROM evento
+                  LEFT JOIN archivo_evento ON evento.id = archivo_evento.evento_id
+                  LEFT JOIN archivo ON archivo_evento.archivo_id = archivo.id
+                  WHERE evento.id = ?";
+        $stmt = $conexion->getConexion()->prepare($query);
+        $stmt->execute([$evento_id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $nombreArchivo = $row['nombre'];
 
         $query = "DELETE FROM tipoEvento WHERE id = ?;";
 
@@ -58,6 +74,20 @@ class Evento
 
         $statement->execute([$evento_id]);
 
+          // Paso 3: Eliminar el archivo de la base de datos
+          if (!empty($nombreArchivo)) {
+            // Verifica que se haya obtenido un nombre de archivo válido
+            $queryEliminarArchivo = "DELETE FROM archivo WHERE nombre = ?";
+            $stmtEliminarArchivo = $conexion->getConexion()->prepare($queryEliminarArchivo);
+            $stmtEliminarArchivo->execute([$nombreArchivo]);
+            
+            // Paso 4: Eliminar el archivo físico del sistema de archivos
+            $rutaArchivo = $nombreArchivo;
+            
+            if (file_exists($rutaArchivo)) {
+                unlink($rutaArchivo); // Elimina el archivo físico
+            }
+        }
 
     }
 
@@ -79,9 +109,19 @@ class Evento
         return $this->id;
     }
 
+    public function getArchivo()
+    {
+        return $this->archivo;
+    }
+
     public function setTipo($tipo)
     {
         $this->tipo = $tipo;
+    }
+
+    public function setArchivo($archivo)
+    {
+        $this->archivo = $archivo;
     }
 
     public static function getEventos($id)

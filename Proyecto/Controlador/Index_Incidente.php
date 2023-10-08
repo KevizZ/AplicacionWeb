@@ -79,7 +79,7 @@
                         <td>" . $I->getPrioridad() . "</td>
                         <td>" . $I->getFecha() . "</td>
                         <td>" . $I->getEstado() . "</td>
-                        <td><button class='btn-modificar'><a href='Descargar_Archivo.php?archivo=" . $I->getArchivo() . "'>Archivo</a></button></td> 
+                        <td><button class='btn-modificar'><a target='_blank'href='" . $I->getArchivo() . "'>Ver</a></button></td> 
                         <td><button class='btn-modificar'><a href='Modificar_Incidente.php?id_incidente=" . $I->getID() . "'>Modificar</a></button></td>
                         <td><button class='btn-eliminar'><a href='Baja_Incidente.php?id_incidente=" . $I->getID() . "'>Eliminar</a></button></td>
                         <td><button class='btn-evento'><a href='Index_Evento.php?id_incidente=" . $I->getID() . "'>Eventos</a></button></td>

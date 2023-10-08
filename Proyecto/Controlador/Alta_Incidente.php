@@ -15,26 +15,6 @@ $pdo = new PDO("mysql:host=localhost;dbname=proyecto", "root", "");
 
 
 // Genera un nombre único para el archivo para evitar colisiones
-$nombreArchivoFinal = $directorioDestino . uniqid() . '_' . $nombreArchivo;
-
-// Primero, inserta un registro en la tabla evento
-$query = "INSERT INTO archivo (nombre) VALUES (?)";
-$statement = $pdo->prepare($query);
-
-$statement->execute([
-    $nombreArchivoFinal
-  
-]);
-
-$lastId = $pdo->lastInsertId();
-
-$query = "INSERT INTO archivo_incidente (archivo_id, incidente_id) VALUES (?,?)";
-$statement = $pdo->prepare($query);
-
-$statement->execute([
-    $lastId,
-    $NuevoIncidente->insertIncidente()
-]);
 
 // Verifica si se subió un archivo
 if (!empty($nombreArchivo) && !empty($tempArchivo)) {
@@ -46,7 +26,28 @@ if (!empty($nombreArchivo) && !empty($tempArchivo)) {
         mkdir($directorioDestino, 0777, true);
     }
 
-    
+    $nombreArchivoFinal = $directorioDestino . uniqid() . '_' . $nombreArchivo;
+
+    // Primero, inserta un registro en la tabla evento
+    $query = "INSERT INTO archivo (nombre) VALUES (?)";
+    $statement = $pdo->prepare($query);
+
+    $statement->execute([
+        $nombreArchivoFinal
+
+    ]);
+
+    $lastId = $pdo->lastInsertId();
+
+    $query = "INSERT INTO archivo_incidente (archivo_id, incidente_id) VALUES (?,?)";
+    $statement = $pdo->prepare($query);
+
+    $statement->execute([
+        $lastId,
+        $NuevoIncidente->insertIncidente()
+    ]);
+
+
 
     if (move_uploaded_file($tempArchivo, $nombreArchivoFinal)) {
         echo 'Archivo subido con éxito y guardado en la base de datos.';
@@ -57,7 +58,8 @@ if (!empty($nombreArchivo) && !empty($tempArchivo)) {
     echo 'No se seleccionó ningún archivo.';
 }
 
-
 header("location: Index_Incidente.php");
+
+
 
 ?>

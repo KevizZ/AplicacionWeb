@@ -85,31 +85,39 @@ class Incidente
     public static function deleteIncidente($incidente_id)
     {
         $conexion = new Conexion();
-
+    
         // Paso 1: Obtener el nombre del archivo asociado al incidente
         $query = "SELECT archivo.nombre
-              FROM incidente
-              LEFT JOIN archivo_incidente ON incidente.id = archivo_incidente.incidente_id
-              LEFT JOIN archivo ON archivo_incidente.archivo_id = archivo.id
-              WHERE incidente.id = ?";
+                  FROM incidente
+                  LEFT JOIN archivo_incidente ON incidente.id = archivo_incidente.incidente_id
+                  LEFT JOIN archivo ON archivo_incidente.archivo_id = archivo.id
+                  WHERE incidente.id = ?";
         $stmt = $conexion->getConexion()->prepare($query);
         $stmt->execute([$incidente_id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $nombreArchivo = $row['nombre'];
-
+    
         // Paso 2: Eliminar el incidente de la base de datos
         $queryEliminarIncidente = "DELETE FROM incidente WHERE id = ?";
         $stmtEliminarIncidente = $conexion->getConexion()->prepare($queryEliminarIncidente);
         $stmtEliminarIncidente->execute([$incidente_id]);
-
+    
         // Paso 3: Eliminar el archivo de la base de datos
         if (!empty($nombreArchivo)) {
             // Verifica que se haya obtenido un nombre de archivo válido
             $queryEliminarArchivo = "DELETE FROM archivo WHERE nombre = ?";
             $stmtEliminarArchivo = $conexion->getConexion()->prepare($queryEliminarArchivo);
             $stmtEliminarArchivo->execute([$nombreArchivo]);
+            
+            // Paso 4: Eliminar el archivo físico del sistema de archivos
+            $rutaArchivo = $nombreArchivo;
+            
+            if (file_exists($rutaArchivo)) {
+                unlink($rutaArchivo); // Elimina el archivo físico
+            }
         }
     }
+    
 
 
     public function getDescripcion()

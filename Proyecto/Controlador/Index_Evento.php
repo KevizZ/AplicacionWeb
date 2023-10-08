@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <h1>Registor de Eventos</h1>
-        <form name="incident-form" action="Alta_Evento.php" method="post">
+        <form name="incident-form" action="Alta_Evento.php" method="post" enctype="multipart/form-data">
             <label for="fecha">Fecha</label>
             <input type="date" name="fecha" required>
 
@@ -26,6 +26,9 @@
                 <option value="Entrevista">Entrevista</option>
             </select>
 
+            <label for="archivo">Seleccionar Archivo:</label>
+            <input type="file" name="archivo" id="archivo" required>
+
             <input type="hidden" name="id_incidente" value="<?php echo $_GET["id_incidente"]; ?>">
             <br>
             <br>
@@ -39,6 +42,7 @@
                     <th>Fecha</th>
                     <th>Tipo</th>
                     <th>Descripcion</th>
+                    <th>Archivo</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,6 +58,7 @@
                         <td>" . $E->getFecha() . "</td>
                         <td>" . $E->getTipo() . "</td>
                         <td>" . $E->getDescripcion() . "</td>
+                        <td><button class='btn-modificar'><a target='_blank'href='" . $E->getArchivo() . "'>Ver</a></button></td> 
                         <td><button class='btn-modificar'><a href='Modificar_Evento.php?id=".$E->getID()."&id_incidente=".$_GET['id_incidente'] ."'>Modificar</a></button></td>  
                         <td><button class='btn-eliminar'><a href='Baja_Evento.php?id=".$E->getID()."&id_incidente=".$_GET['id_incidente'] ."'>Eliminar</a></button></td>
                         </tr>";
