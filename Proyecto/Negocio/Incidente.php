@@ -80,12 +80,28 @@ class Incidente
             $this->categoria,
             $id
         ]);
+
+        $queryArchivo = "UPDATE archivo
+        SET nombre = ?
+        WHERE id IN (
+            SELECT archivo_id
+            FROM archivo_incidente
+            WHERE incidente_id = ?
+        );
+        ";
+
+        $statementArchivo = $conexion->getConexion()->prepare($queryArchivo);
+
+        $statementArchivo->execute([
+            $this->archivo,
+            $id
+        ]);
     }
 
     public static function deleteIncidente($incidente_id)
     {
         $conexion = new Conexion();
-    
+
         // Paso 1: Obtener el nombre del archivo asociado al incidente
         $query = "SELECT archivo.nombre
                   FROM incidente
@@ -96,28 +112,28 @@ class Incidente
         $stmt->execute([$incidente_id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         $nombreArchivo = $row['nombre'];
-    
+
         // Paso 2: Eliminar el incidente de la base de datos
         $queryEliminarIncidente = "DELETE FROM incidente WHERE id = ?";
         $stmtEliminarIncidente = $conexion->getConexion()->prepare($queryEliminarIncidente);
         $stmtEliminarIncidente->execute([$incidente_id]);
-    
+
         // Paso 3: Eliminar el archivo de la base de datos
         if (!empty($nombreArchivo)) {
             // Verifica que se haya obtenido un nombre de archivo válido
             $queryEliminarArchivo = "DELETE FROM archivo WHERE nombre = ?";
             $stmtEliminarArchivo = $conexion->getConexion()->prepare($queryEliminarArchivo);
             $stmtEliminarArchivo->execute([$nombreArchivo]);
-            
+
             // Paso 4: Eliminar el archivo físico del sistema de archivos
             $rutaArchivo = $nombreArchivo;
-            
+
             if (file_exists($rutaArchivo)) {
                 unlink($rutaArchivo); // Elimina el archivo físico
             }
         }
     }
-    
+
 
 
     public function getDescripcion()

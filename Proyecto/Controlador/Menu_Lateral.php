@@ -9,7 +9,6 @@
     <title>Document</title>
 </head>
 <body>
-<div class="area"></div>
     <nav class="main-menu">
         <ul>
             <li>
