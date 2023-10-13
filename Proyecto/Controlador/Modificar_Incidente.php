@@ -56,6 +56,7 @@
         <?php
         include("../Negocio/Incidente.php");
         require "Menu_Lateral.php";
+        require 'Estilo.php';
 
         $id = $_GET["id_incidente"];
 

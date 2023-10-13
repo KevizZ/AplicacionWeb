@@ -8,9 +8,11 @@ $Evento->setTipo($_POST["tipo"]);
 $id = $_POST["id_incidente"];
 $id_incidente = intval($id);
 
+
 // Obtén los datos del archivo subido
 $nombreArchivo = $_FILES['archivo']['name'];
 $tempArchivo = $_FILES['archivo']['tmp_name'];
+
 $pdo = new PDO("mysql:host=localhost;dbname=proyecto", "root", "");
 
 // Verifica si se subió un archivo
@@ -55,6 +57,7 @@ if (!empty($nombreArchivo) && !empty($tempArchivo)) {
 } else {
     echo 'No se seleccionó ningún archivo.';
 }
+
 
 header("location: Index_Evento.php?id_incidente=" . $id_incidente);
 exit;

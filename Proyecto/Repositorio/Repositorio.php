@@ -52,7 +52,7 @@ class Repositorio
     FROM evento
     LEFT JOIN tipoEvento ON evento.id = tipoEvento.id
     LEFT JOIN archivo_evento ON evento.id = archivo_evento.evento_id
-    LEFT JOIN archivo ON archivo_evento.evento_id = archivo.id
+    LEFT JOIN archivo ON archivo_evento.archivo_id = archivo.id
     WHERE evento.incidente_id = $id";
 
 

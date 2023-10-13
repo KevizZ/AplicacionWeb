@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Evento</title>
-    <link rel="stylesheet" href="../Static/estilo.css">
+    <title>Registro de Eventos</title>
 </head>
 <body>
     <div class="container">
-        <h1>Registor de Eventos</h1>
+        <h1>Gestión de Eventos</h1>
         <form name="incident-form" action="Alta_Evento.php" method="post" enctype="multipart/form-data">
             <label for="fecha">Fecha</label>
             <input type="date" name="fecha" required>
@@ -37,17 +36,19 @@
         <table name="incident-table">
             <thead>
             <tr>
-                    <th>Indice</th>
+                    <th>#</th>
                     <th>Fecha</th>
                     <th>Tipo</th>
                     <th>Descripcion</th>
                     <th>Archivo</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Aquí se mostrarán los incidentes -->
                 <?php
                 require 'Menu_Lateral.php';
+                require 'Estilo.php';
                 include("../Negocio/Evento.php");
 
                 $Eventos = Evento::getEventos($_GET["id_incidente"]);
@@ -58,8 +59,8 @@
                         <td>" . $E->getFecha() . "</td>
                         <td>" . $E->getTipo() . "</td>
                         <td>" . $E->getDescripcion() . "</td>
-                        <td><button class='btn-modificar'><a target='_blank'href='" . $E->getArchivo() . "'>Ver</a></button></td> 
-                        <td><button class='btn-modificar'><a href='Modificar_Evento.php?id=".$E->getID()."&id_incidente=".$_GET['id_incidente'] ."'>Modificar</a></button></td>  
+                        <td><button class='btn-modificar'><a target='_blank'href='" . $E->getArchivo() . "'>Ver</a></button>
+                        <button class='btn-modificar'><a href='Descargar_Archivo.php?archivo=" . $E->getArchivo() . "'>Descargar</a></button></td> 
                         <td><button class='btn-eliminar'><a href='Baja_Evento.php?id=".$E->getID()."&id_incidente=".$_GET['id_incidente'] ."'>Eliminar</a></button></td>
                         </tr>";
                 }

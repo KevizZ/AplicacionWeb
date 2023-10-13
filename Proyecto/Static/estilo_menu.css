@@ -103,6 +103,7 @@ nav {
 -ms-user-select:none;
 -o-user-select:none;
 user-select:none;
+display: flex;
 }
 
 nav ul,nav li {

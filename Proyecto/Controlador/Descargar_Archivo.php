@@ -2,6 +2,7 @@
 // Obtén el identificador del archivo desde la consulta (por ejemplo, el nombre del archivo)
 $identificador = $_GET['archivo'];
 
+
 // Determina la ubicación del archivo en el servidor
 $rutaArchivo =  $identificador;
 
@@ -17,5 +18,6 @@ if (file_exists($rutaArchivo)) {
 } else {
     // Si el archivo no existe, muestra un mensaje de error o redirige a una página de error
     echo 'El archivo no existe.';
+    echo $identificador; 
 }
 ?>
