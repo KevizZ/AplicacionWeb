@@ -10,4 +10,4 @@ header("location: Index_Incidente.php")
 
 
 
-?>
+    ?>

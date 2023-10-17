@@ -1,11 +1,14 @@
+<?php require_once("Verificador.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Eventos</title>
 </head>
+
 <body>
     <div class="container">
         <h1>Gestión de Eventos</h1>
@@ -13,10 +16,10 @@
             <label for="fecha">Fecha</label>
             <input type="date" name="fecha" required>
 
-            <label for="descripcion">Descripción:</label>
-            <input type="text" name="descripcion" required>
+            <label for="descripcion">Descripción</label>
+            <textarea name="descripcion" rows="4" cols="50" required></textarea>
 
-            <label for="tipo">Tipo de Evento:</label>
+            <label for="tipo">Tipo de Evento</label>
             <select name="tipo" required>
                 <option value=""></option>
                 <option value="Reunion">Reunion</option>
@@ -24,7 +27,7 @@
                 <option value="Entrevista">Entrevista</option>
             </select>
 
-            <label for="archivo">Seleccionar Archivo:</label>
+            <label for="archivo">Seleccionar Archivo</label>
             <input type="file" name="archivo" id="archivo" required>
 
             <input type="hidden" name="id_incidente" value="<?php echo $_GET["id_incidente"]; ?>">
@@ -35,7 +38,7 @@
 
         <table name="incident-table">
             <thead>
-            <tr>
+                <tr>
                     <th>#</th>
                     <th>Fecha</th>
                     <th>Tipo</th>
@@ -61,7 +64,7 @@
                         <td>" . $E->getDescripcion() . "</td>
                         <td><button class='btn-modificar'><a target='_blank'href='" . $E->getArchivo() . "'>Ver</a></button>
                         <button class='btn-modificar'><a href='Descargar_Archivo.php?archivo=" . $E->getArchivo() . "'>Descargar</a></button></td> 
-                        <td><button class='btn-eliminar'><a href='Baja_Evento.php?id=".$E->getID()."&id_incidente=".$_GET['id_incidente'] ."'>Eliminar</a></button></td>
+                        <td><button class='btn-eliminar'><a href='Baja_Evento.php?id=" . $E->getID() . "&id_incidente=" . $_GET['id_incidente'] . "'>Eliminar</a></button></td>
                         </tr>";
                 }
                 ?>
@@ -69,4 +72,5 @@
         </table>
     </div>
 </body>
+
 </html>

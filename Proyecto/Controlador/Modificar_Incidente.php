@@ -1,3 +1,4 @@
+<?php require_once("Verificador.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,7 +40,7 @@
             <label for="estado">Estado:</label>
             <select name="estado" required>
                 <option value="">Seleccione un estado</option>
-                <option value="Abierto">Activo</option>
+                <option value="Activo">Activo</option>
                 <option value="Cerrado">Cerrado</option>
                 <option value="Pendiente">Pendiente</option>
             </select>
@@ -96,40 +97,40 @@
             echo 'var archivo = "' . $incidente->getArchivo() . '";';
             echo '</script>';
         }
-        
-        if(isset($_POST["enviar"])){
-        $Incidente = new Incidente($_POST["fecha"], $_POST["descripcion"], $_POST["prioridad"], $_POST["estado"]);
-        $Incidente->setCategoria($_POST["categoria"]);
 
-        $conexion = new Conexion();
+        if (isset($_POST["enviar"])) {
+            $Incidente = new Incidente($_POST["fecha"], $_POST["descripcion"], $_POST["prioridad"], $_POST["estado"]);
+            $Incidente->setCategoria($_POST["categoria"]);
 
-        // Paso 1: Obtener el nombre del archivo asociado al incidente
-        $query = "SELECT archivo.nombre
+            $conexion = new Conexion();
+
+            // Paso 1: Obtener el nombre del archivo asociado al incidente
+            $query = "SELECT archivo.nombre
           FROM incidente
           LEFT JOIN archivo_incidente ON incidente.id = archivo_incidente.incidente_id
           LEFT JOIN archivo ON archivo_incidente.archivo_id = archivo.id
           WHERE incidente.id = ?";
-        $stmt = $conexion->getConexion()->prepare($query);
-        $stmt->execute([$_POST["id_incidente"]]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $nombreArchivo = $row['nombre'];
+            $stmt = $conexion->getConexion()->prepare($query);
+            $stmt->execute([$_POST["id_incidente"]]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $nombreArchivo = $row['nombre'];
 
 
-        $rutaArchivo = $nombreArchivo;
+            $rutaArchivo = $nombreArchivo;
 
-        unlink($rutaArchivo);
+            unlink($rutaArchivo);
 
-        $nombreArchivo = $_FILES['archivo']['name'];
-        $tempArchivo = $_FILES['archivo']['tmp_name'];
-        $directorioDestino = '../Archivos/';
+            $nombreArchivo = $_FILES['archivo']['name'];
+            $tempArchivo = $_FILES['archivo']['tmp_name'];
+            $directorioDestino = '../Archivos/';
 
-        $nombreArchivoFinal = $directorioDestino . uniqid() . '_' . $nombreArchivo;
+            $nombreArchivoFinal = $directorioDestino . uniqid() . '_' . $nombreArchivo;
 
-        move_uploaded_file($tempArchivo, $nombreArchivoFinal);
+            move_uploaded_file($tempArchivo, $nombreArchivoFinal);
 
-        $Incidente->setArchivo($nombreArchivoFinal);
+            $Incidente->setArchivo($nombreArchivoFinal);
 
-        $Incidente->updateIncidente($_POST["id_incidente"]);
+            $Incidente->updateIncidente($_POST["id_incidente"]);
 
         }
         ?>

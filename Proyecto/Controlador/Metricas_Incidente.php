@@ -1,3 +1,4 @@
+<?php require_once("Verificador.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,28 +14,33 @@
         .mes-button {
             background-color: #ccc;
             border: 1px solid #999;
-            padding: 10px 20px;
-            margin: 5px;
+
             cursor: pointer;
             text-decoration: none;
             color: white;
-            border-radius: 10px;
+
             background-color: #4fa8fb;
-            font-family: 'Roboto', sans-serif;
-            font-size: 13px;
         }
 
         /* Estilos para los botones cuando son clickeados */
         .mes-button-clicked {
             background-color: skyblue;
             border: 1px solid #999;
+
+            cursor: pointer;
+
+            color: white;
+            border-radius: 3px;
+
+        }
+
+        .contenedor>a {
             padding: 10px 20px;
             margin: 5px;
-            cursor: pointer;
             text-decoration: none;
-            color: white;
-            border-radius: 10px;
-            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            border-radius: 3 px;
+            font-family: Arial, sans-serif;
         }
 
         .contenedor {
@@ -58,7 +64,7 @@
         <?php
         include_once("../Negocio/Incidente.php");
         require("Menu_Lateral.php");
-
+        $meses = ["", "Enero", "Febrero", "Abril", "Mayo", "Marzo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre"];
         getMes();
         function getMes()
         {
@@ -74,13 +80,11 @@
             echo "<th><a href='" . $page . "?mes='all'' class='mes-button'> Siempre </a></th>";
 
             for ($i = 0; $i < 13; $i++) {
-                if ($i > 0 && $mes != "all" && $mes != $i) {
+                if ($i > 0 && $mes != $i) {
                     echo '<th><a href="' . $page . '?mes=' . $i . '" class="mes-button">' . $meses[$i] . '</a></th>';
 
                 } else if ($mes == $i) {
                     echo '<th><a href="' . $page . '?mes=' . $i . '" class="mes-button-clicked">' . $meses[$i] . '</a></th>';
-                } else if ($mes == "all") {
-                    echo '<th><a href="' . $page . '" class="mes-button">' . $meses[$i] . '</a></th>';
                 }
 
             }
@@ -187,7 +191,7 @@
             exportEnabled: true,
             theme: "light1",
             title: {
-                text: "Incidentes por mes"
+                text: "Incidentes en <?php echo date('Y'); ?>"
             },
             axisY: {
                 includeZero: true

@@ -1,3 +1,4 @@
+<?php require_once("Verificador.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,10 +18,10 @@
     <div class="container">
         <h1>Registro de Incidentes</h1>
         <form name="incident-form" method="post" enctype="multipart/form-data">
-            <label for="fecha">Fecha:</label>
+            <label for="fecha" name="fecha">Fecha</label>
             <input type="date" name="fecha" required>
 
-            <label for="descripcion">Descripción:</label>
+            <label for="descripcion">Descripción</label>
             <textarea name="descripcion" rows="4" cols="50" required></textarea>
 
             <label for="categoria">Categoria</label>
@@ -42,12 +43,12 @@
             <label for="estado">Estado:</label>
             <select name="estado" required>
                 <option value="">Seleccione un estado</option>
-                <option value="Abierto">Activo</option>
+                <option value="Activo">Activo</option>
                 <option value="Cerrado">Cerrado</option>
                 <option value="Pendiente">Pendiente</option>
             </select>
 
-            <label for="archivo">Seleccionar Archivo:</label>
+            <label for="archivo">Seleccionar Archivo</label>
             <input type="file" name="archivo" id="archivo">
             <br>
             <br>
