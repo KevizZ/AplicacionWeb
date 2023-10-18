@@ -74,7 +74,7 @@
                 <?php
                 require 'Menu_Lateral.php';
                 require 'Estilo.php';
-                include("../Negocio/Incidente.php");
+                include_once("../Negocio/Incidente.php");
 
                 $Incidentes = Incidente::obtenerIncidentes();
 

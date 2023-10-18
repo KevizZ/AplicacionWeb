@@ -1,6 +1,5 @@
 <?php
-include("Conexion.php");
-
+include_once("Conexion.php");
 class Repositorio
 {
   private $pdo;
@@ -11,9 +10,12 @@ class Repositorio
     $this->pdo = $conexion->getConexion();
   }
 
-  public function obtenerIncidentes()
+  static function obtenerIncidentes()
   {
     $Incidentes = [];
+
+    $conexion = new Conexion();
+    $pdo = $conexion->getConexion();
 
     $sql = "SELECT incidente.*, categoria.categoria, archivo.nombre
         FROM incidente
@@ -21,7 +23,7 @@ class Repositorio
         LEFT JOIN archivo_incidente ON incidente.id = archivo_incidente.incidente_id
         LEFT JOIN archivo ON archivo_incidente.archivo_id = archivo.id";
 
-    $stmt = $this->pdo->query($sql);
+    $stmt = $pdo->query($sql);
 
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
       // Crea un objeto Incidente
@@ -76,6 +78,65 @@ class Repositorio
 
     return $Eventos;
   }
+
+  static function obtenerUsuarios()
+  {
+    $conexion = new Conexion();
+    $pdo = $conexion->getConexion();
+
+    $sql = "SELECT usuario.*, cargo.cargo as cargo
+          FROM usuario 
+          LEFT JOIN cargo ON usuario.id = cargo.id";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute();
+    $Usuarios = [];
+
+    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $Usuario = new Usuario(
+        $row["cedula"],
+        $row["nombre"],
+        $row["apellido"],
+        $row["contraseña"],
+        $row["correo"],
+        $row["id"]
+      );
+
+      $Usuario->setCargo($row["cargo"]);
+      array_push($Usuarios, $Usuario);
+    }
+    return $Usuarios;
+  }
+
+  static function obtenerRegistrados()
+  {
+    $conexion = new Conexion();
+    $pdo = $conexion->getConexion();
+
+    $sql = "SELECT * FROM registro";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute();
+    $Usuarios = [];
+
+    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $Usuario = new Usuario(
+        $row["cedula"],
+        $row["nombre"],
+        $row["apellido"],
+        $row["contraseña"],
+        $row["correo"],
+        $row["id"]
+      );
+
+      $Usuario->setCargo($row["cargo"]);
+      array_push($Usuarios, $Usuario);
+    }
+    return $Usuarios;
+  }
+
 
 
 

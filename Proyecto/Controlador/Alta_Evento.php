@@ -1,5 +1,6 @@
 <?php
-include("../Negocio/Evento.php");
+include_once("../Negocio/Evento.php");
+include_once("../Repositorio/Database.php");
 
 $Evento = new Evento($_POST["fecha"], $_POST["descripcion"]);
 $Evento->setTipo($_POST["tipo"]);
@@ -8,12 +9,10 @@ $Evento->setTipo($_POST["tipo"]);
 $id = $_POST["id_incidente"];
 $id_incidente = intval($id);
 
-
 // Obtén los datos del archivo subido
 $nombreArchivo = $_FILES['archivo']['name'];
 $tempArchivo = $_FILES['archivo']['tmp_name'];
 
-$pdo = new PDO("mysql:host=localhost;dbname=proyecto", "root", "");
 
 // Verifica si se subió un archivo
 if (!empty($nombreArchivo) && !empty($tempArchivo)) {
@@ -28,26 +27,9 @@ if (!empty($nombreArchivo) && !empty($tempArchivo)) {
     // Genera un nombre único para el archivo para evitar colisiones
     $nombreArchivoFinal = $directorioDestino . uniqid() . '_' . $nombreArchivo;
 
-    // Primero, inserta un registro en la tabla evento
-    $query = "INSERT INTO archivo (nombre) VALUES (?)";
-    $statement = $pdo->prepare($query);
+    $Evento->setArchivo($nombreArchivoFinal);
 
-    $statement->execute([
-        $nombreArchivoFinal
-
-    ]);
-
-    $lastId = $pdo->lastInsertId();
-
-    $query = "INSERT INTO archivo_evento (archivo_id, evento_id) VALUES (?,?)";
-    $statement = $pdo->prepare($query);
-
-    $statement->execute([
-        $lastId,
-        $Evento->insertEvento($id)
-    ]);
-
-
+    BD::setArchivoEvento($Evento, $id_incidente);
 
     if (move_uploaded_file($tempArchivo, $nombreArchivoFinal)) {
         echo 'Archivo subido con éxito y guardado en la base de datos.';

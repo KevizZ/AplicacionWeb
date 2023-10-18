@@ -45,13 +45,12 @@
 
         .contenedor {
             align-items: center;
-            margin-left: 20%;
+            text-align: center;
             margin-top: 20px;
         }
 
         #chartContainer {
-            align-items: center;
-            margin-left: 20%;
+            margin-left: 12%;
             margin-top: 20px;
         }
     </style>
@@ -156,10 +155,10 @@
 <!-- CANVAS JS -->
 
 <div style="display: flex; justify-content: space-between; margin-top: 50px;">
-    <div style="width: 48%;">
+    <div style="width: 50%;">
         <div id="chartContainer" style="height: 250px;"></div>
     </div>
-    <div style="width: 48%;">
+    <div style="width: 50%;">
         <div id="chartContainer2" style="height: 250px;"></div>
     </div>
 </div>

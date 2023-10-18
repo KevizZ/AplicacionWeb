@@ -39,9 +39,9 @@
 
                 <label for="cargo">Rol:</label>
                 <select id="cargo" name="cargo">
-                    <option value="director">Director</option>
-                    <option value="profesor">Profesor</option>
-                    <option value="adscrito">Adscripto</option>
+                    <option value="Director">Director</option>
+                    <option value="Profesor">Profesor</option>
+                    <option value="Adscripto">Adscripto</option>
                 </select><br>
 
                 <label for="foto">Foto de Perfil:</label>

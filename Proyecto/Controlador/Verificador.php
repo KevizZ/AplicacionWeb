@@ -9,7 +9,7 @@ if (!isset($_SESSION["sesion_valida"]) || $_SESSION["sesion_valida"] !== true) {
     exit; // Asegúrate de que el script se detenga después de la redirección
 } else if (isset($_GET["log"]) && $_GET["log"] == "logout") {
     $_SESSION["sesion_valida"] = false;
-    $_SESSION["usuario_id"] = null;
+    $_SESSION["ci_usuario"] = null;
     header("Location: Index_Login.php");
 }
 ?>

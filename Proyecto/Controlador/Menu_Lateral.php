@@ -14,7 +14,7 @@
     <nav class="main-menu">
         <ul>
             <li>
-                <a href="Index_Usuario.php">
+                <a href="Index_Perfil.php">
                     <i class="fa fa-user"></i>
                     <span class="nav-text">
                         Perfil
@@ -32,7 +32,7 @@
 
             </li>
             <li class="has-subnav">
-                <a href="Buscador_Incidente.php">
+                <a href="Index_Buscador-Incidente.php">
                     <i class="fa fa-book fa-2x"></i>
                     <span class="nav-text">
                         Incidentes
@@ -41,7 +41,7 @@
 
             </li>
             <li class="has-subnav">
-                <a href="Metricas_Incidente.php">
+                <a href="Index_Metricas-Incidente.php">
                     <i class="fa fa-eye"></i>
                     <span class="nav-text">
                         Métricas
@@ -144,6 +144,7 @@
         transition: width 0.05s linear;
         -webkit-transform: translateZ(0) scale(1, 1);
         z-index: 1000;
+        text-align: left;
     }
 
     .main-menu>ul {

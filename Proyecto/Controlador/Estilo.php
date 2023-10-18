@@ -71,6 +71,7 @@
         color: white;
         border: none;
         cursor: pointer;
+        display: inline;
     }
 
     .btn-modificar {
@@ -109,6 +110,10 @@
         border-collapse: collapse;
         width: 96.7%;
         margin-left: 60px;
+    }
+
+    h2 {
+        text-align: center;
     }
 
     th,

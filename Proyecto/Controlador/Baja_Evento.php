@@ -1,10 +1,15 @@
-<?php 
-include("../Negocio/Evento.php");
-   Evento::deleteEvento($_GET["id"]);
+<?php
+include_once("../Negocio/Evento.php");
+include_once("../Repositorio/Database.php");
+$id = $_GET["id"];
 
-   $id = $_GET["id_incidente"];
-    $id_incidente = intval($id);
-    header("location: Index_Evento.php?id_incidente=" . $id_incidente);
+$rutaArchivo = BD::unsetEvento($id);
+
+unlink($rutaArchivo); // Elimina el archivo físico
+
+$id = $_GET["id_incidente"];
+$id_incidente = intval($id);
+header("location: Index_Evento.php?id_incidente=" . $id_incidente);
 
 
 ?>

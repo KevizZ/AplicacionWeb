@@ -46,7 +46,7 @@
     </form>
 
     <?php
-    include("../Negocio/Incidente.php");
+    include_once("../Negocio/Incidente.php");
     require "Menu_Lateral.php";
     require "Estilo.php";
 
@@ -76,7 +76,7 @@
             FROM incidente
             LEFT JOIN categoria ON incidente.id = categoria.id
             LEFT JOIN archivo_incidente ON incidente.id = archivo_incidente.incidente_id
-            LEFT JOIN archivo ON archivo_incidente.incidente_id = archivo.id
+            LEFT JOIN archivo ON archivo_incidente.archivo_id = archivo.id
             WHERE 1 = 1"; // La condición "1 = 1" se usa como punto de partida para construir la consulta dinámicamente
     
     if (!empty($descripcion)) {

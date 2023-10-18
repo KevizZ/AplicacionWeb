@@ -1,5 +1,4 @@
 <?php
-include("../Repositorio/Conexion.php");
 class Usuario
 {
 
@@ -8,16 +7,23 @@ class Usuario
     private $apellido;
     private $correo;
     private $contraseña;
+    private $cargo;
+    private $id;
 
-    function __construct($cedula, $nombre, $apellido, $contraseña, $correo)
+    function __construct($cedula, $nombre, $apellido, $contraseña, $correo, $id = "0")
     {
         $this->cedula = $cedula;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->contraseña = $contraseña;
         $this->correo = $correo;
+        $this->id = $id;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
     public function getCedula()
     {
         return $this->cedula;
@@ -37,6 +43,15 @@ class Usuario
     public function getCorreo()
     {
         return $this->correo;
+    }
+    public function getCargo()
+    {
+        return $this->cargo;
+    }
+
+    public function setCargo($cargo)
+    {
+        $this->cargo = $cargo;
     }
 }
 ?>

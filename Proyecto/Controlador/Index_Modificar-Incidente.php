@@ -55,65 +55,30 @@
         </form>
 
         <?php
-        include("../Negocio/Incidente.php");
+        include_once("../Negocio/Incidente.php");
         require "Menu_Lateral.php";
         require 'Estilo.php';
 
         $id = $_GET["id_incidente"];
 
-        $pdo = new PDO("mysql:host=localhost;dbname=proyecto", "root", "");
+        $incidente = BD::getIncidente($id);
 
-        $sql = "SELECT incidente.*, categoria.categoria, archivo.nombre
-        FROM incidente
-        LEFT JOIN categoria ON incidente.id = categoria.id
-        LEFT JOIN archivo_incidente ON incidente.id = archivo_incidente.incidente_id
-        LEFT JOIN archivo ON archivo_incidente.archivo_id = archivo.id
-        WHERE incidente.id = $id";
-
-        $stmt = $pdo->query($sql);
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // Crea un objeto Incidente
-            $incidente = new Incidente(
-                $row['fecha'],
-                $row['descripcion'],
-                $row['prioridad'],
-                $row['estado'],
-                $row['id']
-            );
-
-            // Agrega la propiedad "categoria" a tu objeto Incidente
-            $incidente->setCategoria($row['categoria']);
-
-            $incidente->setArchivo($row['nombre']);
-
-            // Imprime los valores del objeto como variables JavaScript
-            echo '<script>';
-            echo 'var fecha = "' . $incidente->getFecha() . '";';
-            echo 'var descripcion = "' . $incidente->getDescripcion() . '";';
-            echo 'var categoria = "' . $incidente->getCategoria() . '";';
-            echo 'var prioridad = "' . $incidente->getPrioridad() . '";';
-            echo 'var estado = "' . $incidente->getEstado() . '";';
-            echo 'var archivo = "' . $incidente->getArchivo() . '";';
-            echo '</script>';
-        }
+        // Imprime los valores del objeto como variables JavaScript
+        echo '<script>';
+        echo 'var fecha = "' . $incidente->getFecha() . '";';
+        echo 'var descripcion = "' . $incidente->getDescripcion() . '";';
+        echo 'var categoria = "' . $incidente->getCategoria() . '";';
+        echo 'var prioridad = "' . $incidente->getPrioridad() . '";';
+        echo 'var estado = "' . $incidente->getEstado() . '";';
+        echo 'var archivo = "' . $incidente->getArchivo() . '";';
+        echo '</script>';
 
         if (isset($_POST["enviar"])) {
             $Incidente = new Incidente($_POST["fecha"], $_POST["descripcion"], $_POST["prioridad"], $_POST["estado"]);
             $Incidente->setCategoria($_POST["categoria"]);
 
-            $conexion = new Conexion();
 
-            // Paso 1: Obtener el nombre del archivo asociado al incidente
-            $query = "SELECT archivo.nombre
-          FROM incidente
-          LEFT JOIN archivo_incidente ON incidente.id = archivo_incidente.incidente_id
-          LEFT JOIN archivo ON archivo_incidente.archivo_id = archivo.id
-          WHERE incidente.id = ?";
-            $stmt = $conexion->getConexion()->prepare($query);
-            $stmt->execute([$_POST["id_incidente"]]);
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $nombreArchivo = $row['nombre'];
+            $nombreArchivo = BD::getArchivoIncidente($id);
 
 
             $rutaArchivo = $nombreArchivo;
@@ -130,7 +95,7 @@
 
             $Incidente->setArchivo($nombreArchivoFinal);
 
-            $Incidente->updateIncidente($_POST["id_incidente"]);
+            BD::updateIncidente($Incidente, $id);
 
         }
         ?>
