@@ -44,8 +44,6 @@
                     <option value="Adscripto">Adscripto</option>
                 </select><br>
 
-                <label for="foto">Foto de Perfil:</label>
-                <input type="file" id="foto" name="foto"><br>
 
                 <label for="email">Correo Electrónico:</label>
                 <input type="email" id="email" name="email" required><br>
@@ -83,8 +81,6 @@
 </script>
 
 </html>
-
-<?php require "Estilo.php"; ?>
 
 <style>
     body {

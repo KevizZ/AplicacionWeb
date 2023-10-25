@@ -1,0 +1,11 @@
+tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+table {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}

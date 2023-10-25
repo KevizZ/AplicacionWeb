@@ -1,5 +1,6 @@
 <?php
 include_once("Conexion.php");
+include_once("../Negocio/Persona.php");
 class Repositorio
 {
   private $pdo;
@@ -109,6 +110,8 @@ class Repositorio
     return $Usuarios;
   }
 
+
+
   static function obtenerRegistrados()
   {
     $conexion = new Conexion();
@@ -135,6 +138,31 @@ class Repositorio
       array_push($Usuarios, $Usuario);
     }
     return $Usuarios;
+  }
+
+  static function obtenerPersonas()
+  {
+    $conexion = new Conexion();
+    $pdo = $conexion->getConexion();
+
+    $sql = "SELECT * FROM persona";
+
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->execute();
+    $Personas = [];
+
+    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $Persona = new Persona(
+        $row["cedula"],
+        $row["nombre"],
+        $row["apellido"],
+        $row["id"]
+      );
+
+      array_push($Personas, $Persona);
+    }
+    return $Personas;
   }
 
 

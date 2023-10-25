@@ -36,7 +36,6 @@ try {
             $apellido = isset($_POST['apellido']) ? $_POST['apellido'] : '';
             $cedula = isset($_POST['cedula']) ? $_POST['cedula'] : '';
             $cargo = isset($_POST['cargo']) ? $_POST['cargo'] : '';
-            $foto = isset($_POST['foto']) ? $_POST['foto'] : '';
             $correo = isset($_POST['email']) ? $_POST['email'] : '';
             $contraseña = isset($_POST['contraseña']) ? $_POST['contraseña'] : '';
             $confirmar_contraseña = isset($_POST['confirmar_contraseña']) ? $_POST['confirmar_contraseña'] : '';

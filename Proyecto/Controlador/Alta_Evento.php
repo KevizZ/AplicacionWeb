@@ -3,7 +3,13 @@ include_once("../Negocio/Evento.php");
 include_once("../Repositorio/Database.php");
 
 $Evento = new Evento($_POST["fecha"], $_POST["descripcion"]);
-$Evento->setTipo($_POST["tipo"]);
+
+if (empty($_POST["tipo"])) {
+    $Evento->setTipo($_POST["tipo_personalizado"]);
+} else {
+    $Evento->setTipo($_POST["tipo"]);
+}
+
 
 
 $id = $_POST["id_incidente"];

@@ -316,25 +316,37 @@ class BD
         $conexion = new Conexion();
         $pdo = $conexion->getConexion();
 
-        // Consulta para actualizar los datos del usuario
-        $sqlUsuario = "UPDATE usuario SET nombre=?, apellido=?, contraseña=?, correo=? WHERE cedula=?";
-        $stmtUsuario = $pdo->prepare($sqlUsuario);
-        $stmtUsuario->execute([
-            $usuario->getNombre(),
-            $usuario->getApellido(),
-            $usuario->getContraseña(),
-            $usuario->getCorreo(),
-            $usuario->getCedula()
-        ]);
+        // Consulta para obtener el ID del usuario
+        $sqlObtenerID = "SELECT id FROM usuario WHERE cedula = ?";
+        $stmtObtenerID = $pdo->prepare($sqlObtenerID);
+        $stmtObtenerID->execute([$usuario->getCedula()]);
+        $result = $stmtObtenerID->fetch(PDO::FETCH_ASSOC);
 
-        // Consulta para actualizar el cargo del usuario
-        $sqlCargo = "UPDATE cargo SET cargo=? WHERE id = (SELECT id FROM usuario WHERE cedula=?)";
-        $stmtCargo = $pdo->prepare($sqlCargo);
-        $stmtCargo->execute([
-            $usuario->getCargo(),
-            $usuario->getCedula()
-        ]);
+        if ($result) {
+            $usuarioID = $result['id'];
+
+            // Consulta para actualizar los datos del usuario
+            $sqlUsuario = "UPDATE usuario SET cedula =?,nombre=?, apellido=?, contraseña=?, correo=? WHERE id = ?";
+            $stmtUsuario = $pdo->prepare($sqlUsuario);
+            $stmtUsuario->execute([
+                $usuario->getCedula(),
+                $usuario->getNombre(),
+                $usuario->getApellido(),
+                $usuario->getContraseña(),
+                $usuario->getCorreo(),
+                $usuarioID
+            ]);
+
+            // Consulta para actualizar el cargo del usuario
+            $sqlCargo = "UPDATE cargo SET cargo=? WHERE id = ?";
+            $stmtCargo = $pdo->prepare($sqlCargo);
+            $stmtCargo->execute([
+                $usuario->getCargo(),
+                $usuarioID
+            ]);
+        }
     }
+
 
 
     static function updateIncidente($Incidente, $incidente_id)
@@ -414,22 +426,59 @@ class BD
 
     static function setRegistrado($usuario)
     {
+        $conexion = new Conexion();
+        $pdo = $conexion->getConexion();
+
+        // Verifica si ya existen registros en la tabla usuario
+        $countQuery = "SELECT COUNT(*) FROM usuario";
+        $countStatement = $pdo->query($countQuery);
+        $cantidadUsuarios = $countStatement->fetchColumn();
+
+        if ($cantidadUsuarios == 0) {
+            BD::setUsuario($usuario);
+
+        } else {
+            $query = "INSERT INTO registro (cedula, nombre, apellido, contraseña, correo, cargo) VALUES (?, ?, ?, ?, ?, ?)";
+            $statement = $pdo->prepare($query);
+
+            $statement->execute([
+                $usuario->getCedula(),
+                $usuario->getNombre(),
+                $usuario->getApellido(),
+                $usuario->getContraseña(),
+                $usuario->getCorreo(),
+                $usuario->getCargo()
+            ]);
+        }
+    }
+
+
+    static function setPersona($Persona)
+    {
 
         $conexion = new Conexion();
         $pdo = $conexion->getConexion();
 
-        // Primero, inserta un registro en la tabla evento
-        $query = "INSERT INTO registro (cedula, nombre, apellido, contraseña, correo,cargo) VALUES (?, ?, ?, ?, ?,?)";
+        $query = "INSERT INTO persona (cedula,nombre,apellido) VALUES (?, ?, ?)";
         $statement = $pdo->prepare($query);
 
         $statement->execute([
-            $usuario->getCedula(),
-            $usuario->getNombre(),
-            $usuario->getApellido(),
-            $usuario->getContraseña(),
-            $usuario->getCorreo(),
-            $usuario->getCargo()
+            $Persona->getCedula(),
+            $Persona->getNombre(),
+            $Persona->getApellido()
         ]);
+    }
+
+    static function unsetPersona($persona_id)
+    {
+
+        $conexion = new Conexion();
+        $pdo = $conexion->getConexion();
+
+        $query = "DELETE FROM persona WHERE persona.id = $persona_id";
+        $statement = $pdo->prepare($query);
+
+        $statement->execute();
     }
 
     static function getRegistrado($id)
@@ -474,7 +523,227 @@ class BD
         ]);
     }
 
+    static function vincularPersonaIncidente($incidente_id, $rol, $persona_ci)
+    {
+        $conexion = new Conexion();
+        $pdo = $conexion->getConexion();
 
+        $obteneridpersona = "SELECT id FROM persona WHERE persona.cedula = ?";
+        $stmt = $pdo->prepare($obteneridpersona);
+        $stmt->execute([$persona_ci]);
+
+        // Obtenemos el resultado de la consulta
+        $persona_id = $stmt->fetchColumn();
+
+        // Verifica si ya existe un registro con los mismos datos
+        $verificarQuery = "SELECT COUNT(*) FROM persona_rol_incidente WHERE incidente_id = ? AND persona_id = ?";
+        $verificarStatement = $pdo->prepare($verificarQuery);
+        $verificarStatement->execute([$incidente_id, $persona_id]);
+        $existeRegistro = $verificarStatement->fetchColumn();
+
+        if ($existeRegistro == 0) {
+            // No existe un registro con los mismos datos, puedes insertarlo
+            $insertQuery = "INSERT INTO persona_rol_incidente (incidente_id, rol, persona_id) VALUES (?,?,?)";
+            $insertStatement = $pdo->prepare($insertQuery);
+            $insertStatement->execute([$incidente_id, $rol, $persona_id]);
+        }
+    }
+
+
+    static function desvincularPersonaIncidente($persona_id)
+    {
+
+        $conexion = new Conexion();
+        $pdo = $conexion->getConexion();
+
+        // Primero, inserta un registro en la tabla evento
+        $query = "DELETE FROM persona_rol_incidente WHERE persona_rol_incidente.persona_id = ?";
+        $statement = $pdo->prepare($query);
+
+        $statement->execute([
+            $persona_id
+        ]);
+    }
+
+    public static function buscarPersonas($cedula, $nombre, $apellido, $id_incidente)
+    {
+        $personasEncontradas = array();
+
+        $conexion = new Conexion();
+        $pdo = $conexion->getConexion();
+
+        // Construir la consulta SQL
+        $sql = "SELECT DISTINCT persona.* FROM persona WHERE 1=1"; // La condición 1=1 permite agregar condiciones dinámicamente
+
+        if (!empty($cedula)) {
+            $sql .= " AND cedula = :cedula";
+        }
+
+        if (!empty($nombre)) {
+            $sql .= " AND nombre LIKE :nombre";
+        }
+
+        if (!empty($apellido)) {
+            $sql .= " AND apellido LIKE :apellido";
+        }
+
+        // Agregar la condición para excluir personas involucradas en el incidente específico
+        if (!empty($id_incidente)) {
+            $sql .= " AND persona.id NOT IN (
+                SELECT persona_id FROM persona_rol_incidente WHERE incidente_id = :id_incidente
+            )";
+        }
+
+        // Preparar la consulta
+        $stmt = $pdo->prepare($sql);
+
+        if (!empty($cedula)) {
+            $stmt->bindParam(':cedula', $cedula);
+        }
+
+        if (!empty($nombre)) {
+            $nombre = "%" . $nombre . "%"; // Agregar comodines % para búsqueda parcial
+            $stmt->bindParam(':nombre', $nombre);
+        }
+
+        if (!empty($apellido)) {
+            $apellido = "%" . $apellido . "%"; // Agregar comodines % para búsqueda parcial
+            $stmt->bindParam(':apellido', $apellido);
+        }
+
+        // Bind the incident ID parameter
+        if (!empty($id_incidente)) {
+            $stmt->bindParam(':id_incidente', $id_incidente, PDO::PARAM_INT);
+        }
+
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $persona = new Persona(
+                    $row["cedula"],
+                    $row["nombre"],
+                    $row["apellido"],
+                    $row["id"]
+                );
+                array_push($personasEncontradas, $persona);
+            }
+        }
+
+        return $personasEncontradas;
+    }
+
+
+
+    static function obtenerPersonasIncidente($id)
+    {
+        $conexion = new Conexion();
+        $pdo = $conexion->getConexion();
+
+        $sql = "SELECT persona.*, persona_rol_incidente.rol as rol
+        FROM persona
+        LEFT JOIN persona_rol_incidente ON persona.id = persona_rol_incidente.persona_id
+        WHERE persona_rol_incidente.incidente_id = :id OR :id IS NULL";
+
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+        $Personas = [];
+
+        if ($stmt->execute()) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $Persona = new Persona(
+                    $row["cedula"],
+                    $row["nombre"],
+                    $row["apellido"],
+                    $row["id"]
+                );
+                $Persona->setRol($row["rol"]);
+
+                array_push($Personas, $Persona);
+            }
+        }
+        return $Personas;
+    }
+
+    static function getTiposEvento()
+    {
+        $conexion = new Conexion();
+        $pdo = $conexion->getConexion();
+
+        $opcionesPersonalizadas = array(); // Aquí almacenarás las opciones personalizadas recuperadas de la base de datos
+        // Realiza una consulta a la base de datos para obtener las opciones personalizadas
+        $query = "SELECT tipo FROM tipoevento";
+        $stmt = $pdo->prepare($query);
+
+        if ($stmt->execute()) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $opcionesPersonalizadas[] = $row['tipo'];
+            }
+        }
+        $opcionesPersonalizadas = array_unique($opcionesPersonalizadas);
+
+        return $opcionesPersonalizadas;
+    }
+
+    static function getRoles()
+    {
+        $conexion = new Conexion();
+        $pdo = $conexion->getConexion();
+
+        $opcionesPersonalizadas = array(); // Aquí almacenarás las opciones personalizadas recuperadas de la base de datos
+        // Realiza una consulta a la base de datos para obtener las opciones personalizadas
+        $query = "SELECT rol FROM persona_rol_incidente";
+        $stmt = $pdo->prepare($query);
+
+        if ($stmt->execute()) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $opcionesPersonalizadas[] = $row['rol'];
+            }
+        }
+        $opcionesPersonalizadas = array_unique($opcionesPersonalizadas);
+
+        return $opcionesPersonalizadas;
+    }
+
+
+    static function obtenerIncidentesPersonas($idPersona)
+    {
+        $Incidentes = [];
+
+        $conexion = new Conexion();
+        $pdo = $conexion->getConexion();
+
+        $sql = "SELECT incidente.*, categoria.categoria, archivo.nombre
+            FROM incidente
+            LEFT JOIN categoria ON incidente.id = categoria.id
+            LEFT JOIN archivo_incidente ON incidente.id = archivo_incidente.incidente_id
+            LEFT JOIN archivo ON archivo_incidente.archivo_id = archivo.id
+            LEFT JOIN persona_rol_incidente ON incidente.id = persona_rol_incidente.incidente_id
+            WHERE persona_rol_incidente.persona_id = :idPersona";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':idPersona', $idPersona, PDO::PARAM_INT);
+        $stmt->execute();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $incidente = new Incidente(
+                $row['fecha'],
+                $row['descripcion'],
+                $row['prioridad'],
+                $row['estado'],
+                $row['id']
+            );
+
+            $incidente->setCategoria($row['categoria']);
+            $incidente->setArchivo($row['nombre']);
+
+            array_push($Incidentes, $incidente);
+        }
+
+        return $Incidentes;
+    }
 
 }
+
 ?>

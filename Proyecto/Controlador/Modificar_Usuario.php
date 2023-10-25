@@ -9,10 +9,15 @@ $cargo = isset($_POST['cargo']) ? $_POST['cargo'] : '';
 $correo = isset($_POST['correo']) ? $_POST['correo'] : '';
 $contraseña = isset($_POST['contraseña']) ? $_POST['contraseña'] : '';
 
+
+
 $hash_contraseña = password_hash($contraseña, PASSWORD_BCRYPT);
+
 
 $usuario = new Usuario($cedula, $nombre, $apellido, $hash_contraseña, $correo);
 $usuario->setCargo($cargo);
+
+$_SESSION["ci_usuario"] = $cedula;
 
 BD::updateUsuario($usuario);
 

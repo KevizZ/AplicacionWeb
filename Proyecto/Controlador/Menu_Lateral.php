@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../Static/estilo_menu.css">
-    <link rel="stylesheet" type="text/css" href="../Static/icon.css">
     <title>Document</title>
 </head>
 
@@ -50,10 +48,10 @@
 
             </li>
             <li>
-                <a href="#">
+                <a href="Index_Persona.php">
                     <i class="fa fa-film fa-2x"></i>
                     <span class="nav-text">
-                        Surveying Tutorials
+                        Personas
                     </span>
                 </a>
             </li>
