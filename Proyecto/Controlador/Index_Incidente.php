@@ -13,54 +13,59 @@ require 'Menu_Lateral.php'; ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
-<body>
+<body class="bg-secondary">
     <div class="container mt-5">
-        <h1 class="text-center mt-3">Registro de Incidentes</h1>
-        <form name="incident-form" method="post" enctype="multipart/form-data" class="mt-3">
-            <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" class="form-control" name="fecha" required>
-            </div>
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" name="descripcion" rows="4" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="categoria" class="form-label">Categoría</label>
-                <select class="form-select" name="categoria" required>
-                    <option value="">Seleccione una categoría</option>
-                    <option value="Robo">Robo</option>
-                    <option value="Acoso">Acoso</option>
-                    <option value="Pelea">Pelea</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="prioridad" class="form-label">Prioridad</label>
-                <select class="form-select" name="prioridad" required>
-                    <option value="">Seleccione una prioridad</option>
-                    <option value="Alta">Alta</option>
-                    <option value="Media">Media</option>
-                    <option value="Baja">Baja</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="estado" class="form-label">Estado:</label>
-                <select class="form-select" name="estado" required>
-                    <option value="">Seleccione un estado</option>
-                    <option value="Activo">Activo</option>
-                    <option value="Cerrado">Cerrado</option>
-                    <option value="Pendiente">Pendiente</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="archivo" class="form-label">Seleccionar Archivo</label>
-                <input type="file" class="form-control" name="archivo" id="archivo">
-            </div>
+        <div class="row justify-content-center mb-5">
+            <h1 class="text-center text-white">Registro de Incidentes</h1>
+            <form name="incident-form" method="post" enctype="multipart/form-data"
+                class="col-md-6 mt-3 bg-light rounded shadow">
+                <div class="mb-3 mt-3">
+                    <label for="fecha" class="form-label">Fecha</label>
+                    <input type="date" class="form-control" name="fecha" required>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" name="descripcion" rows="1" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="categoria" class="form-label">Categoría</label>
+                    <select class="form-select" name="categoria" required>
+                        <option value="">Seleccione una categoría</option>
+                        <option value="Robo">Robo</option>
+                        <option value="Acoso">Acoso</option>
+                        <option value="Pelea">Pelea</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="prioridad" class="form-label">Prioridad</label>
+                    <select class="form-select" name="prioridad" required>
+                        <option value="">Seleccione una prioridad</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Media">Media</option>
+                        <option value="Baja">Baja</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="estado" class="form-label">Estado:</label>
+                    <select class="form-select" name="estado" required>
+                        <option value="">Seleccione un estado</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Cerrado">Cerrado</option>
+                        <option value="Pendiente">Pendiente</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="archivo" class="form-label">Seleccionar Archivo</label>
+                    <input type="file" class="form-control" name="archivo" id="archivo">
+                </div>
 
-            <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary" formaction="Alta_Incidente.php">Agregar Incidente</button>
-            </div>
-        </form>
+                <div class="text-center mt-3 mb-3">
+                    <button type="submit" class="btn btn-primary" formaction="Alta_Incidente.php">Agregar
+                        Incidente</button>
+                </div>
+            </form>
+        </div>
+
         <table class="table table-striped table-hover  align-middle">
             <thead>
                 <tr>
@@ -87,22 +92,22 @@ require 'Menu_Lateral.php'; ?>
                 foreach ($Incidentes as $I) {
                     echo "<tr>
                         <td>" . $I->getID() . "</td>
-                        <td><div class='overflow-auto'>" . $I->getDescripcion() . "</div></td>
+                        <td><div class='overflow-auto' style='white-space: nowrap;'>" . $I->getDescripcion() . "</div></td>
                         <td>" . $I->getCategoria() . "</td>
                         <td>" . $I->getPrioridad() . "</td>
                         <td>" . $I->getFecha() . "</td>
                         <td>" . $I->getEstado() . "</td>
                         <td>
-                        <a class='btn btn-primary' target='_blank' href='" . $I->getArchivo() . "'>Ver <i class='bi bi-eye'></i></a>
-                        <a class='btn btn-success' href='Descargar_Archivo.php?archivo=" . $I->getArchivo() . "'>Descargar <i class='bi bi-download'></i></a>
+                        <a class='btn btn-primary' target='_blank' href='" . $I->getArchivo() . "'> <i class='bi bi-eye'></i></a>
+                        <a class='btn btn-success' href='Descargar_Archivo.php?archivo=" . $I->getArchivo() . "'> <i class='bi bi-download'></i></a>
                     </td>
                     <td><a class='btn btn-warning' href='Index_Modificar-Incidente.php?id_incidente=" . $I->getID() . "'>Modificar <i class='bi bi-pencil'></i></a></td>
                     <td><a class='btn btn-danger' href='Baja_Incidente.php?id_incidente=" . $I->getID() . "'>Eliminar <i class='bi bi-trash'></i></a></td>
                     <td><a class='btn btn-info' href='Index_Evento.php?id_incidente=" . $I->getID() . "'>Eventos <i class='bi bi-calendar'></i></a></td>
                     <td><a class='btn btn-warning' href='Index_Buscador-Persona.php?id_incidente=" . $I->getID() . "'>Gestionar <i class='bi bi-people-fill'></i></i></a></td>
-                    </tr>
-                    ";
+                    </tr>";
                 }
+
                 ?>
             </tbody>
         </table>

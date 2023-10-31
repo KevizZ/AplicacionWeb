@@ -13,56 +13,58 @@ require "Menu_Lateral.php"; ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
-<body>
+<body class="bg-secondary">
     <div class="container mt-5">
-        <h1 class="text-center mt-3">Buscador de Incidentes</h1>
-        <form method="POST" class="row gy-2 gx-3 align-items-center">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="fecha_inicio" class="form-label">Desde</label>
-                    <input type="date" class="form-control" name="fecha_inicio">
-                </div>
-                <div class="col-md-6">
-                    <label for="fecha_fin" class="form-label">Hasta</label>
-                    <input type="date" class="form-control" name="fecha_fin">
-                </div>
-                <div class="col-md-12">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" name="descripcion" rows="4"></textarea>
-                </div>
-                <div class="col-md-6">
-                    <label for="categoria" class="form-label">Categoría</label>
-                    <select class="form-select" name="categoria">
-                        <option value="">Seleccione una categoría</option>
-                        <option value="Robo">Robo</option>
-                        <option value="Acoso">Acoso</option>
-                        <option value="Pelea">Pelea</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label for="prioridad" class="form-label">Prioridad</label>
-                    <select class="form-select" name="prioridad">
-                        <option value="">Seleccione una prioridad</option>
-                        <option value="Alta">Alta</option>
-                        <option value="Media">Media</option>
-                        <option value="Baja">Baja</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label for="estado" class="form-label">Estado</label>
-                    <select class="form-select" name="estado">
-                        <option value="">Seleccione un estado</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Cerrado">Cerrado</option>
-                        <option value="Pendiente">Pendiente</option>
-                    </select>
-                </div>
+        <div class="row justify-content-center">
+            <h1 class="text-center text-white">Buscador de Incidentes</h1>
+            <form method="POST" class="col-md-6 mt-3 align-items-center bg-light rounded shadow">
+                <div class="row g-3 mt-1">
+                    <div class="col-md-6">
+                        <label for="fecha_inicio" class="form-label">Desde</label>
+                        <input type="date" class="form-control" name="fecha_inicio">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fecha_fin" class="form-label">Hasta</label>
+                        <input type="date" class="form-control" name="fecha_fin">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" name="descripcion" rows="1"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="categoria" class="form-label">Categoría</label>
+                        <select class="form-select" name="categoria">
+                            <option value="">Seleccione una categoría</option>
+                            <option value="Robo">Robo</option>
+                            <option value="Acoso">Acoso</option>
+                            <option value="Pelea">Pelea</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="prioridad" class="form-label">Prioridad</label>
+                        <select class="form-select" name="prioridad">
+                            <option value="">Seleccione una prioridad</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Media</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="estado" class="form-label">Estado</label>
+                        <select class="form-select" name="estado">
+                            <option value="">Seleccione un estado</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Cerrado">Cerrado</option>
+                            <option value="Pendiente">Pendiente</option>
+                        </select>
+                    </div>
 
-                <div class="col-md-12 text-center mt-3">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <div class="col-md-12 text-center mt-3 mb-3">
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
 
 
         <style>
@@ -131,7 +133,7 @@ require "Menu_Lateral.php"; ?>
         $numResultados = $stmt->rowCount();
 
         // Resto del código para mostrar los resultados en una tabla
-        echo "<p>Resultados de la búsqueda ($numResultados)</p>";
+        echo "<p class='text-white'>Resultados de la búsqueda ($numResultados)</p>";
         echo "<table name='incident-table' class='table table-striped mt-4 align-middle'>
             <thead>
                 <tr>
@@ -173,14 +175,14 @@ require "Menu_Lateral.php"; ?>
         foreach ($Incidentes as $I) {
             echo "<tr>
                 <td>" . $I->getID() . "</td>
-                <td><div class='overflow-auto'>" . $I->getDescripcion() . "</div></td>
+                <td><div class='overflow-auto' style='white-space: nowrap;'>" . $I->getDescripcion() . "</div></td>
                 <td>" . $I->getCategoria() . "</td>
                 <td>" . $I->getPrioridad() . "</td>
                 <td>" . $I->getFecha() . "</td>
                 <td>" . $I->getEstado() . "</td>
                 <td>
-    <a class='btn btn-primary' target='_blank' href='" . $I->getArchivo() . "'>Ver <i class='bi bi-eye'></i></a>
-    <a class='btn btn-success' href='Descargar_Archivo.php?archivo=" . $I->getArchivo() . "'>Descargar <i class='bi bi-download'></i></a>
+    <a class='btn btn-primary' target='_blank' href='" . $I->getArchivo() . "'><i class='bi bi-eye'></i></a>
+    <a class='btn btn-success' href='Descargar_Archivo.php?archivo=" . $I->getArchivo() . "'> <i class='bi bi-download'></i></a>
 </td>
 <td><a class='btn btn-warning' href='Index_Modificar-Incidente.php?id_incidente=" . $I->getID() . "'>Modificar <i class='bi bi-pencil'></i></a></td>
 <td><a class='btn btn-danger' href='Baja_Incidente.php?id_incidente=" . $I->getID() . "'>Eliminar <i class='bi bi-trash'></i></a></td>

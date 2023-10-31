@@ -6,10 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Estilo.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
 <body>
-    <nav class="main-menu">
+    <nav class="main-menu text-start">
         <ul>
             <li>
                 <a href="Index_Perfil.php">
@@ -49,43 +52,21 @@
             </li>
             <li>
                 <a href="Index_Persona.php">
-                    <i class="fa fa-film fa-2x"></i>
+                    <i class="fa fa-users fa-2x"></i>
                     <span class="nav-text">
                         Personas
                     </span>
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <i class="fa fa-book fa-2x"></i>
-                    <span class="nav-text">
-                        Surveying Jobs
-                    </span>
-                </a>
+
+
             </li>
             <li>
-                <a href="#">
-                    <i class="fa fa-cogs fa-2x"></i>
-                    <span class="nav-text">
-                        Tools & Resources
-                    </span>
-                </a>
             </li>
             <li>
-                <a href="#">
-                    <i class="fa fa-map-marker fa-2x"></i>
-                    <span class="nav-text">
-                        Member Map
-                    </span>
-                </a>
             </li>
             <li>
-                <a href="#">
-                    <i class="fa fa-info fa-2x"></i>
-                    <span class="nav-text">
-                        Documentation
-                    </span>
-                </a>
             </li>
         </ul>
 

@@ -17,60 +17,64 @@ require_once("../Repositorio/Database.php");
     <title>Modificar Incidente</title>
 </head>
 
-<body>
+<body class="bg-secondary">
     <div class="container mt-5">
-        <h1>Modificar Incidente</h1>
-        <form name="incident-form" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha:</label>
-                <input type="date" name="fecha" class="form-control" required>
-            </div>
+        <div class="row justify-content-center">
+            <h1 class="text-center text-white">Modificar Incidente</h1>
+            <form name="incident-form" class="col-md-6  mt-3 bg-light shadow rounded" method="post"
+                enctype="multipart/form-data">
+                <div class="mb-3 mt-3">
+                    <label for="fecha" class="form-label">Fecha:</label>
+                    <input type="date" name="fecha" class="form-control" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción:</label>
-                <input type="text" name="descripcion" class="form-control" required>
-            </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción:</label>
+                    <input type="text" name="descripcion" class="form-control" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="categoria" class="form-label">Categoría</label>
-                <select name="categoria" class="form-select" required>
-                    <option value="">Seleccione una categoría</option>
-                    <option value="Robo">Robo</option>
-                    <option value="Acoso">Acoso</option>
-                    <option value="Pelea">Pelea</option>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label for="categoria" class="form-label">Categoría</label>
+                    <select name="categoria" class="form-select" required>
+                        <option value="">Seleccione una categoría</option>
+                        <option value="Robo">Robo</option>
+                        <option value="Acoso">Acoso</option>
+                        <option value="Pelea">Pelea</option>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label for="prioridad" class="form-label">Prioridad</label>
-                <select name="prioridad" class="form-select" required>
-                    <option value="">Seleccione una prioridad</option>
-                    <option value="Alta">Alta</option>
-                    <option value="Media">Media</option>
-                    <option value="Baja">Baja</option>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label for="prioridad" class="form-label">Prioridad</label>
+                    <select name="prioridad" class="form-select" required>
+                        <option value="">Seleccione una prioridad</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Media">Media</option>
+                        <option value="Baja">Baja</option>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label for="estado" class="form-label">Estado:</label>
-                <select name="estado" class="form-select" required>
-                    <option value="">Seleccione un estado</option>
-                    <option value="Activo">Activo</option>
-                    <option value="Cerrado">Cerrado</option>
-                    <option value="Pendiente">Pendiente</option>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label for="estado" class="form-label">Estado:</label>
+                    <select name="estado" class="form-select" required>
+                        <option value="">Seleccione un estado</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Cerrado">Cerrado</option>
+                        <option value="Pendiente">Pendiente</option>
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label for="archivo" class="form-label">Seleccionar Archivo:</label>
-                <input type="file" name="archivo" id="archivo" class="form-control" required>
-            </div>
+                <div class="mb-3">
+                    <label for="archivo" class="form-label">Seleccionar Archivo:</label>
+                    <input type="file" name="archivo" id="archivo" class="form-control" required>
+                </div>
 
-            <input type="hidden" name="id_incidente" value="<?php echo $_GET["id_incidente"]; ?>">
-            <br>
-            <br>
-            <button type="submit" name="enviar" class="btn btn-primary">Actualizar</button>
-        </form>
+                <input type="hidden" name="id_incidente" value="<?php echo $_GET["id_incidente"]; ?>">
+
+                <div class="mb-3 text-center">
+                    <button type="submit" name="enviar" class="btn btn-primary">Actualizar</button>
+                </div>
+            </form>
+        </div>
 
         <?php
         include_once("../Negocio/Incidente.php");

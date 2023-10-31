@@ -16,44 +16,47 @@ require_once("../Repositorio/Database.php"); ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
-<body>
+<body class="bg-secondary">
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Gestión de Eventos</h1>
-        <form name="event-form" action="Alta_Evento.php" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" class="form-control" name="fecha" required>
-            </div>
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" name="descripcion" rows="4" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="tipo" class="form-label">Tipo de Evento</label>
-                <select class="form-select" name="tipo">
-                    <option value=""></option>
-                    <?php
-                    $opcionesPersonalizadas = BD::getTiposEvento();
-                    // Agrega las opciones personalizadas recuperadas de la base de datos al select
-                    foreach ($opcionesPersonalizadas as $opcion) {
-                        echo "<option value='" . $opcion . "'>" . $opcion . "</option>";
-                    }
-                    ?>
-                </select>
-                <input type="text" class="form-control" name="tipo_personalizado" placeholder="Tipo Personalizado">
+        <div class="row justify-content-center">
+            <h1 class="text-center text-white">Gestión de Eventos</h1>
+            <form name="event-form" class="col-md-6 bg-light rounded shadow" action="Alta_Evento.php" method="post"
+                enctype="multipart/form-data">
+                <div class="mb-3 mt-3">
+                    <label for="fecha" class="form-label">Fecha</label>
+                    <input type="date" class="form-control" name="fecha" required>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" name="descripcion" rows="1" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="tipo" class="form-label">Tipo de Evento</label>
+                    <select class="form-select" name="tipo">
+                        <option value=""></option>
+                        <?php
+                        $opcionesPersonalizadas = BD::getTiposEvento();
+                        // Agrega las opciones personalizadas recuperadas de la base de datos al select
+                        foreach ($opcionesPersonalizadas as $opcion) {
+                            echo "<option value='" . $opcion . "'>" . $opcion . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <input type="text" class="form-control" name="tipo_personalizado" placeholder="Tipo Personalizado">
 
-            </div>
+                </div>
 
-            <div class="mb-3">
-                <label for="archivo" class="form-label">Seleccionar Archivo</label>
-                <input type="file" class="form-control" name="archivo" id="archivo" required>
-            </div>
-            <input type="hidden" name="id_incidente" value="<?php echo $_GET['id_incidente']; ?>">
+                <div class="mb-3">
+                    <label for="archivo" class="form-label">Seleccionar Archivo</label>
+                    <input type="file" class="form-control" name="archivo" id="archivo" required>
+                </div>
+                <input type="hidden" name="id_incidente" value="<?php echo $_GET['id_incidente']; ?>">
 
-            <div class="text-center mt-3">
-                <button type="submit" class="btn btn-primary">Agregar Evento</button>
-            </div>
-        </form>
+                <div class="text-center mt-3 mb-3">
+                    <button type="submit" class="btn btn-primary">Agregar Evento</button>
+                </div>
+            </form>
+        </div>
 
         <table class="table mt-4">
             <thead>
@@ -77,11 +80,11 @@ require_once("../Repositorio/Database.php"); ?>
                         <td>" . $E->getID() . "</td>
                         <td>" . $E->getFecha() . "</td>
                         <td>" . $E->getTipo() . "</td>
-                        <td>" . $E->getDescripcion() . "</td>
+                        <td><div class='overflow-auto' style='white-space: nowrap;'>" . $E->getDescripcion() . "</div></td>
                         <td>
-                            <a class='btn btn-primary' target='_blank' href='" . $E->getArchivo() . "'>Ver
+                            <a class='btn btn-primary' target='_blank' href='" . $E->getArchivo() . "'>
                             <i class='bi bi-eye'></i></a>
-                            <a class='btn btn-success' href='Descargar_Archivo.php?archivo=" . $E->getArchivo() . "'>Descargar
+                            <a class='btn btn-success' href='Descargar_Archivo.php?archivo=" . $E->getArchivo() . "'>
                             <i class='bi bi-download'></i></a>
                         </td>
                         <td>

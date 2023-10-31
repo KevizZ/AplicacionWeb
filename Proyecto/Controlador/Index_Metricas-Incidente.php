@@ -1,4 +1,5 @@
-<?php require_once("Verificador.php"); ?>
+<?php require_once("Verificador.php");
+require_once("../Repositorio/Database.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,31 +7,34 @@
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="Estilo.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- MESES -->
     <style>
+        a {
+            border-radius: 10px;
+        }
+
         /* Estilos para los botones cuando no están clickeados */
         .mes-button {
-            background-color: #ccc;
-            border: 1px solid #999;
+            background-color: blue;
 
             cursor: pointer;
             text-decoration: none;
             color: white;
 
-            background-color: #4fa8fb;
         }
 
         /* Estilos para los botones cuando son clickeados */
         .mes-button-clicked {
             background-color: skyblue;
-            border: 1px solid #999;
 
             cursor: pointer;
 
             color: white;
-            border-radius: 3px;
+            border-radius: 10px;
 
         }
 
@@ -56,7 +60,7 @@
     </style>
 </head>
 
-<body>
+<body class="bg-secondary">
     <div class="contenedor">
 
         <!-- PHP -->
@@ -153,16 +157,40 @@
 </body>
 
 <!-- CANVAS JS -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3 col-sm-3">
+            <div id="chartContainer" style="height: 500px;"></div>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div id="chartContainer2" style="height: 250px;"></div>
+        </div>
+        <div class=" bg-light col-md-3 col-sm-3 shadow">
+            <h2 class="text-center mt-3 mb-3">Involucrados</h2>
+            <?php
+            $personas = BD::getPersonasCantidadIncidentes();
 
-<div style="display: flex; justify-content: space-between; margin-top: 50px;">
-    <div style="width: 50%;">
-        <div id="chartContainer" style="height: 250px;"></div>
-    </div>
-    <div style="width: 50%;">
-        <div id="chartContainer2" style="height: 250px;"></div>
+            echo "<div class='d-flex justify-content-center'>
+            <table class='table table-bordered mx-auto'>
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Incidentes</th>
+            </tr>
+        </thead>";
+            foreach ($personas as $persona) {
+                echo "<tr>
+                <td>{$persona->getNombre()} {$persona->getApellido()}</td>
+                <td>{$persona->getCantidadIncidentes()}</td>
+                </tr>";
+            }
+            echo "</table>
+            </div>";
+
+            ?>
+        </div>
     </div>
 </div>
-
 
 <script>
     window.onload = function () {
@@ -170,9 +198,9 @@
         var chart = new CanvasJS.Chart("chartContainer", {
             animationEnabled: true,
             exportEnabled: true,
-            theme: "light2",
+            theme: "light1",
             title: {
-                text: "Categorías de Incidentes"
+                text: "Categorías"
             },
             axisY: {
                 includeZero: true

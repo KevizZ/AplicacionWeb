@@ -18,54 +18,70 @@ require_once("../Repositorio/Database.php");
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
-<body>
+<body class="bg-secondary">
     <div class="container mt-5">
-        <h1 class="text-center">Gestión de Personas Involucradas</h1>
-        <form method="POST">
-            <div class="mb-3">
-                <label for="cedula" class="form-label">Cedula</label>
-                <input type="text" id="cedula" name="cedula" class="form-control" required>
-            </div>
+        <div class="row justify-content-center">
+            <h1 class="text-center text-white">Gestión de Personas Involucradas</h1>
+            <form class=" col-md-6 mt-4 bg-light rounded shadow" method="POST">
+                <div class="mb-3 mt-3">
+                    <label for="cedula" class="form-label">Cedula</label>
+                    <input type="text" id="cedula" name="cedula" class="form-control" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" id="nombre" name="nombre" class="form-control" required>
-            </div>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido</label>
-                <input type="text" id="apellido" name="apellido" class="form-control" required>
-            </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" class="form-control" required>
+                </div>
 
-            <div class="mb-3">
-                <label for="rol" class="form-label">Rol</label>
-                <select class="form-select" name="rol">
-                    <option value=""></option>
-                    <?php
-                    $opcionesPersonalizadas = BD::getRoles();
-                    // Agrega las opciones personalizadas recuperadas de la base de datos al select
-                    foreach ($opcionesPersonalizadas as $opcion) {
-                        echo "<option value='" . $opcion . "'>" . $opcion . "</option>";
-                    }
-                    ?>
-                </select>
-                <input type="text" class="form-control" name="rol_personalizado"
-                    placeholder="Rol Personalizado (El rol agregado aquí aparecerá en la caja de arriba para seleccionar)">
+                <div class="mb-3">
+                    <label for="rol" class="form-label">Rol</label>
+                    <select class="form-select" name="rol">
+                        <option value=""></option>
+                        <?php
+                        $roles = BD::getRoles();
+                        // Agrega las opciones personalizadas recuperadas de la base de datos al select
+                        foreach ($roles as $rol) {
+                            echo "<option value='" . $rol . "'>" . $rol . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <input type="text" class="form-control" name="rol_personalizado"
+                        placeholder="Rol Personalizado (El rol agregado aquí aparecerá en la caja de arriba para seleccionar)">
 
-            </div>
+                </div>
 
-            <input type="hidden" name="id_incidente"
-                value="<?php echo isset($_GET['id_incidente']) ? $_GET['id_incidente'] : (isset($_POST['id_incidente']) ? $_POST['id_incidente'] : ''); ?>">
+                <div class="mb-3">
+                    <label for="evento" class="form-label">Evento</label>
+                    <select class="form-select" name="evento">
+                        <option value="-1">Selecciona un evento</option>
+                        <?php
+                        $Eventos = BD::getEventosIncidente($_GET["id_incidente"]);
+                        foreach ($Eventos as $E) {
+                            echo "<option value='" . $E->getID() . "'>" . $E->getDescripcion() . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
 
-            <div class="text-center mb-3">
-                <button type="submit" formaction="Alta_Persona-Incidente.php" class="btn btn-success"
-                    value="Añadir">Añadir</button>
-                <button type="submit" class="btn btn-primary" value="Buscar" formnovalidate>Buscar</button>
-            </div>
-        </form>
 
-        <div class="table-container">
-            <h2 class="text-center">Involucrados</h2>
+                <input type="hidden" name="id_incidente"
+                    value="<?php echo isset($_GET['id_incidente']) ? $_GET['id_incidente'] : (isset($_POST['id_incidente']) ? $_POST['id_incidente'] : ''); ?>">
+
+                <div class="text-center mb-3">
+                    <button type="submit" formaction="Alta_Persona-Incidente.php" class="btn btn-success"
+                        value="Añadir">Añadir</button>
+                    <button type="submit" class="btn btn-primary" value="Buscar" formnovalidate>Buscar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-container mt-3">
+            <h2 class="text-center text-white">Involucrados</h2>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-sm align-middle">
                     <thead>
@@ -75,6 +91,7 @@ require_once("../Repositorio/Database.php");
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Rol</th>
+                            <th>Evento</th>
                             <th>Opciones</th>
                         </tr>
                     </thead>
@@ -91,6 +108,7 @@ require_once("../Repositorio/Database.php");
                         <td>" . $P->getNombre() . "</td>
                         <td>" . $P->getApellido() . "</td>
                         <td>" . $P->getRol() . "</td>
+                        <td>" . BD::getPersonaEvento($P->getId()) . "</td>
                         <td>
                             <a class='btn btn-danger' href='Baja_Persona-Incidente.php?id_persona=" . $P->getId() . "&id_incidente=" . $id_incidente . "'>Quitar <i class='bi bi-trash'></i></a>
                         </td>
@@ -102,8 +120,8 @@ require_once("../Repositorio/Database.php");
             </div>
         </div>
 
-        <div class="table-container">
-            <h2 class="text-center">Personas</h2>
+        <div class="table-container mt-3">
+            <h2 class="text-center text-white">Personas</h2>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-sm align-middle">
                     <thead>

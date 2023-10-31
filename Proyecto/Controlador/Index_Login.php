@@ -3,170 +3,112 @@
 
 <head>
     <title>Iniciar Sesión</title>
+    <!-- Incluir CSS de Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container">
-        <div id="login-form" class="form-container active">
+<body class="bg-secondary">
+    <div class="container mt-5">
+        <div id="login-form" class="row justify-content-center form-container active">
             <!-- Formulario de Inicio de Sesión -->
-            <h2>Iniciar Sesión</h2>
-            <form action="Controlador_Login.php" method="post">
-                <label for="cedula">Cedula</label>
-                <input type="text" name="cedula" required><br>
+            <h2 class="text-center text-white">Iniciar Sesión</h2>
+            <form action="Controlador_Login.php" class="col-md-6 bg-light rounded p-4 shadow" method="post">
+                <div class="mb-3">
+                    <label for="cedula" class="form-label">Cedula</label>
+                    <input type="text" name="cedula" class="form-control" required>
+                </div>
 
-                <label for="contraseña">Contraseña</label>
-                <input type="password" name="contraseña" required><br>
+                <div class="mb-3">
+                    <label for="contraseña" class="form-label">Contraseña</label>
+                    <input type="password" name="contraseña" class="form-control" required>
+                </div>
 
-                <input type="submit" value="Iniciar Sesión">
+                <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
 
                 <input type="hidden" name="valor" value="login">
             </form>
-            <p>No tienes una cuenta? <a href="#" id="show-register-form">Regístrate</a></p>
+            <p class="text-center text-white">No tienes una cuenta? <a href="#" id="show-register-form">Regístrate</a>
+            </p>
         </div>
 
-        <div id="register-form" class="form-container">
+        <div id="register-form" class="row justify-content-center form-container">
             <!-- Formulario de Registro (inicialmente oculto) -->
-            <h2>Registro</h2>
-            <form action="Controlador_Login.php" method="post">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" required><br>
+            <h2 class="text-center text-white">Registro</h2>
+            <form action="Controlador_Login.php" class="col-md-6 bg-light rounded p-4 shadow" method="post">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" required>
+                </div>
 
-                <label for="apellido">Apellido</label>
-                <input type="text" id="apellido" name="apellido" required><br>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" class="form-control" required>
+                </div>
 
-                <label for="cedula">Cedula</label>
-                <input type="text" id="cedula" name="cedula" required><br>
+                <div class="mb-3">
+                    <label for="cedula" class="form-label">Cedula</label>
+                    <input type="text" id="cedula" name="cedula" class="form-control" required>
+                </div>
 
-                <label for="cargo">Rol:</label>
-                <select id="cargo" name="cargo">
-                    <option value="Director">Director</option>
-                    <option value="Profesor">Profesor</option>
-                    <option value="Adscripto">Adscripto</option>
-                </select><br>
+                <div class="mb-3">
+                    <label for="cargo" class="form-label">Rol:</label>
+                    <select id="cargo" name="cargo" class="form-select">
+                        <option value="Director">Director</option>
+                        <option value="Profesor">Profesor</option>
+                        <option value="Adscripto">Adscripto</option>
+                    </select>
+                </div>
 
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
 
-                <label for="email">Correo Electrónico:</label>
-                <input type="email" id="email" name="email" required><br>
+                <div class="mb-3">
+                    <label for="contraseña" class="form-label">Contraseña:</label>
+                    <input type="password" id="contraseña" name="contraseña" class="form-control" required>
+                </div>
 
-                <label for="contraseña">Contraseña:</label>
-                <input type="password" id="contraseña" name="contraseña" required><br>
-
-                <label for="confirmar_contraseña">Confirmar Contraseña</label>
-                <input type="password" name="confirmar_contraseña" required><br>
+                <div class="mb-3">
+                    <label for="confirmar_contraseña" class="form-label">Confirmar Contraseña</label>
+                    <input type="password" name="confirmar_contraseña" class="form-control" required>
+                </div>
 
                 <input type="hidden" name="valor" value="register">
 
-                <input type="submit" value="Registrarse">
+                <input type="submit" class="btn btn-primary" value="Registrarse">
             </form>
-            <p>¿Ya tienes una cuenta? <a href="#" id="show-login-form">Iniciar Sesión</a></p>
+            <p class="text-center text-white">¿Ya tienes una cuenta? <a href="#" id="show-login-form">Iniciar Sesión</a>
+            </p>
         </div>
     </div>
+    <!-- Incluir JS de Bootstrap 5 al final del archivo -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Mostrar el formulario de registro al hacer clic en "Regístrate"
+            document.getElementById("show-register-form").addEventListener("click", function () {
+                document.getElementById("login-form").classList.remove("active");
+                document.getElementById("register-form").classList.add("active");
+            });
+
+            // Mostrar el formulario de inicio de sesión al hacer clic en "Iniciar Sesión"
+            document.getElementById("show-login-form").addEventListener("click", function () {
+                document.getElementById("register-form").classList.remove("active");
+                document.getElementById("login-form").classList.add("active");
+            });
+        });
+    </script>
 </body>
-
-</html>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Mostrar el formulario de registro al hacer clic en "Regístrate"
-        document.getElementById("show-register-form").addEventListener("click", function () {
-            document.getElementById("login-form").classList.remove("active");
-            document.getElementById("register-form").classList.add("active");
-        });
-
-        // Mostrar el formulario de inicio de sesión al hacer clic en "Iniciar Sesión"
-        document.getElementById("show-login-form").addEventListener("click", function () {
-            document.getElementById("register-form").classList.remove("active");
-            document.getElementById("login-form").classList.add("active");
-        });
-    });
-</script>
-
-</html>
-
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-        text-align: center;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    .container {
-        max-width: 400px;
-        width: 100%;
-        padding: 20px;
-    }
-
     .form-container {
         display: none;
     }
 
     .form-container.active {
-        display: block;
-    }
-
-    /* Estilos generales para los formularios */
-    form {
-        max-width: 300px;
-        margin: 0 auto;
-        background-color: #fff;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    label {
-        display: block;
-        margin: 10px 0;
-        color: #333;
-        text-align: left;
-        margin-left: 10px;
-        margin-bottom: 0px;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-        width: 90%;
-        padding: 10px;
-        margin: 5px 0;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-    }
-
-    input[type="submit"] {
-        margin-top: 20px;
-        width: 50%;
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-        background-color: #0056b3;
-    }
-
-    a {
-        text-decoration: none;
-        color: #007bff;
-    }
-
-    a:hover {
-        color: #0056b3;
-    }
-
-    p {
-        margin-top: 10px;
-    }
-
-    /* Estilos específicos para el formulario de registro */
-    #register-form {
-        margin-top: 20px;
+        display: flex;
     }
 </style>
+</style>
+
+</html>

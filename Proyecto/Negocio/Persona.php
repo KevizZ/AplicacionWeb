@@ -6,7 +6,7 @@ class Persona
     private $apellido;
     private $id;
     private $rol;
-
+    private $cantidadIncidentes;
     function __construct($cedula, $nombre, $apellido, $id = '0')
     {
         $this->cedula = $cedula;
@@ -38,6 +38,14 @@ class Persona
     public function setRol($rol)
     {
         $this->rol = $rol;
+    }
+    public function getCantidadIncidentes()
+    {
+        return $this->cantidadIncidentes;
+    }
+    public function setCantidadIncidentes($incidentes)
+    {
+        $this->cantidadIncidentes = $incidentes;
     }
 }
 ?>

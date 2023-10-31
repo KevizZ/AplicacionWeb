@@ -9,3 +9,7 @@ table {
 a {
   text-decoration: none;
 }
+
+.container {
+  border-radius: 10px;
+}

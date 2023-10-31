@@ -49,6 +49,10 @@ class Usuario
         return $this->cargo;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
     public function setCargo($cargo)
     {
         $this->cargo = $cargo;

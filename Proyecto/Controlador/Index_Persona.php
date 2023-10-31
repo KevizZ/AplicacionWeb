@@ -18,37 +18,39 @@ require_once("../Repositorio/Database.php");
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
-<body>
+<body class="bg-secondary">
     <div class="container mt-5">
-        <h1 class="titulo text-center">Buscador de Personas</h1>
-        <form method="POST" class="mt-4">
-            <div class="mb-3">
-                <label for="cedula" class="form-label">Cedula</label>
-                <input type="text" class="form-control" id="cedula" name="cedula">
-            </div>
+        <div class="row justify-content-center">
+            <h1 class="text-center text-light">Buscador de Personas</h1>
+            <form method="POST" class="col-md-6 bg-light rounded shadow">
+                <div class="mb-3 mt-3">
+                    <label for="cedula" class="form-label">Cedula</label>
+                    <input type="text" class="form-control" id="cedula" name="cedula">
+                </div>
 
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre">
-            </div>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre">
+                </div>
 
-            <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido</label>
-                <input type="text" class="form-control" id="apellido" name="apellido">
-            </div>
+                <div class="mb-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido">
+                </div>
 
-            <input type="hidden" name="id_incidente"
-                value="<?php echo isset($_GET['id_incidente']) ? $_GET['id_incidente'] : (isset($_POST['id_incidente']) ? $_POST['id_incidente'] : ''); ?>">
+                <input type="hidden" name="id_incidente"
+                    value="<?php echo isset($_GET['id_incidente']) ? $_GET['id_incidente'] : (isset($_POST['id_incidente']) ? $_POST['id_incidente'] : ''); ?>">
 
-            <input type="hidden" id="id_persona" name="id_persona" value="">
+                <input type="hidden" id="id_persona" name="id_persona" value="">
 
-            <div class="text-center mt-3">
-                <button id="btnPersonas" class="btn btn-warning align-left d-none">Personas</button>
-                <button type="submit" class="btn btn-primary" id="btnBuscar" name="buscar">Buscar</button>
-                <button type="submit" formaction="Alta_Persona.php" id="btnAñadir" class="btn btn-success"
-                    name="añadir">Añadir</button>
-            </div>
-        </form>
+                <div class="text-center mt-3 mb-3">
+                    <button id="btnPersonas" class="btn btn-warning align-left d-none">Personas</button>
+                    <button type="submit" class="btn btn-primary" id="btnBuscar" name="buscar">Buscar</button>
+                    <button type="submit" formaction="Alta_Persona.php" id="btnAñadir" class="btn btn-success"
+                        name="añadir">Añadir</button>
+                </div>
+            </form>
+        </div>
 
         <div class="table table-striped mt-4">
             <table class="table table-striped align-middle" id="tablaPersonas">
@@ -104,11 +106,7 @@ require_once("../Repositorio/Database.php");
                         <th>Prioridad</th>
                         <th>Fecha</th>
                         <th>Estado</th>
-                        <th>Archivo</th>
-                        <th>Modificar</th>
-                        <th>Eliminar</th>
-                        <th>Eventos</th>
-                        <th>Involucrados</th>
+                        <th>Rol</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,24 +117,17 @@ require_once("../Repositorio/Database.php");
                     if (isset($_POST["id_persona"])) {
 
                         $Incidentes = BD::obtenerIncidentesPersonas($_POST["id_persona"]);
+                        $P = BD::getPersona($_POST["id_persona"]);
 
                         foreach ($Incidentes as $I) {
                             echo "<tr>
                             <td>" . $I->getId() . "</td>
-                            <td><div class='overflow-auto'>" . $I->getDescripcion() . "</div></td>
+                            <td><div class='overflow-auto' style='white-space: nowrap;'>" . $I->getDescripcion() . "</div></td>
                             <td>" . $I->getCategoria() . "</td>
                             <td>" . $I->getPrioridad() . "</td>
                             <td>" . $I->getFecha() . "</td>
                             <td>" . $I->getEstado() . "</td>
-                            <td>
-                            <a class='btn btn-primary' target='_blank' href='" . $I->getArchivo() . "'>Ver <i class='bi bi-eye'></i></a>
-                            <a class='btn btn-success' href='Descargar_Archivo.php?archivo=" . $I->getArchivo() . "'>Descargar <i class='bi bi-download'></i></a>
-                        </td>
-                        <td><a class='btn btn-warning' href='Index_Modificar-Incidente.php?id_incidente=" . $I->getID() . "'>Modificar <i class='bi bi-pencil'></i></a></td>
-                        <td><a class='btn btn-danger' href='Baja_Incidente.php?id_incidente=" . $I->getID() . "'>Eliminar <i class='bi bi-trash'></i></a></td>
-                        <td><a class='btn btn-info' href='Index_Evento.php?id_incidente=" . $I->getID() . "'>Eventos <i class='bi bi-calendar'></i></a></td>
-                        <td><a class='btn btn-warning' href='Index_Buscador-Persona.php?id_incidente=" . $I->getID() . "'>Gestionar <i class='bi bi-people-fill'></i></i></a></td>
-                        </tr>
+                            <td>" . $P->getRol() . "</td>
                         ";
                         }
 
